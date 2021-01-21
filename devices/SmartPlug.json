@@ -1,0 +1,20 @@
+{
+    "name": "SmartPlug",
+    "vendorId": "ETF",
+    "deviceId": "LO-51-3010",
+    "deviceType": "Plug",
+    "desc": "A smart plug",
+
+    "functions": [
+        [
+            { "name": "enable", "friendly": "Enable" },
+            { "name": "disable", "friendly": "Disable" }
+        ]
+    ],
+
+    "values": [
+        { "name": "powerUsage", "friendly": "Power Usage", "value": 0.0 },
+        { "name": "status", "friendly": "Status",
+            "value": [ "Enabled", "Disabled", "Fault" ] }
+    ]
+}

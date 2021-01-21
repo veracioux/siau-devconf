@@ -1,0 +1,29 @@
+#ifndef DEVICE_H
+#define DEVICE_H
+
+class $name
+{
+public:
+
+/*** Enum ***/
+// TODO ovdje će biti generisani i custom enum tipovi, ali nismo još implementirali!
+
+    // BASIC GETTERS
+    const char *getVendorId() const
+    {
+        return "$vendorId";
+    }
+    const char *getDeviceId() const
+    {
+        return "$deviceId";
+    }
+    const char *getSerialNo() const
+    {
+        return "$serialNo";
+    }
+/*** Functions ***/
+// TODO ovdje će biti generisane i metode, ali nismo još implementirali!
+/*** Values ***/
+};
+
+#endif // DEVICE_H

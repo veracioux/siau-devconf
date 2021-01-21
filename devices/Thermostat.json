@@ -1,0 +1,20 @@
+{
+  "name": "Thermostat",
+  "vendorId": "ETF",
+  "deviceId": "THM500-A26",
+  "serialNo": "T12-B456-034",
+  "deviceType": "Temperature",
+  "desc": "A thermostat",
+
+  "functions": [
+    [
+        { "name": "enable", "friendly": "Enable" },
+        { "name": "disable", "friendly": "Disable" }
+    ],
+    { "name": "setTemp", "friendly": "Temperature", "valueRange": [ 0.0, 2.0 ] }
+  ],
+
+  "values": [
+      { "name": "getStatus", "friendly": "Status", "value": [ "Enabled", "Disabled" ] }
+  ]
+}

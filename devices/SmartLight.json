@@ -1,0 +1,26 @@
+{
+    "name": "SmartLight",
+    "vendorId": "ETF",
+    "deviceId": "LX34-U6M",
+    "category": "Light",
+    "values": [
+        {
+            "name": "getBrightness", "friendly": "Brightness",
+            "valueType": "float", "unit": "%"
+        },
+        {
+            "name": "getState", "friendly": "State",
+            "valueType": "StateOnOff", "valueRange": [ "On", "Off" ]
+        }
+    ],
+    "functions": [
+        [
+            { "name": "turnOn", "friendly": "Turn On", "if": "getState=Off" },
+            { "name": "turnOff", "friendly": "Turn Off", "if": "getState=On" }
+        ],
+        {
+            "name": "setBrightness", "friendly": "Set Brightness",
+            "valueType": "float", "valueRange": [ 0.0, 100.0 ], "unit": "%"
+        }
+    ]
+}
