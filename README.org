@@ -188,7 +188,7 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
 
    Svaki topic treba da bude formata:
 
-   ~lokacija/uređaj/poruka~
+   ~roomId/uređaj/poruka~
 
    Pri tome ~lokacija~ uređaja može predstavljati na primjer naziv sobe, polje
    ~uređaj~ je jedinstvena identifikacija uređaja (vjerovatno serijski broj -
@@ -205,7 +205,7 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
 
    ~dnevni_boravak/001-2340/setTemp~
 
-   pri čemu će /payload/ sadržavati floatan broj koji predstavlja zadanu vrijednost
+   pri čemu će /payload/ sadržavati float koji predstavlja zadanu vrijednost
    temperature.
 
 ** Konkretan primjer
