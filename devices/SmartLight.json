@@ -2,7 +2,6 @@
     "name": "SmartLight",
     "vendorId": "ETF",
     "deviceId": "LX34-U6M",
-    "category": "Light",
     "values": [
         {
             "name": "getBrightness", "friendly": "Brightness",

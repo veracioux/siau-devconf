@@ -7,7 +7,8 @@ INSTALL_DIR ?= /usr/local
 # the command-line, it will be set equal to INSTALL_DIR.
 REAL_INSTALL_DIR ?= ""
 
-CMAKE = cmake -S dev-conf/ -B _build/
+CONFIG ?= Release
+CMAKE = cmake -DCMAKE_BUILD_TYPE=${CONFIG} -S dev-conf/ -B _build/
 CMAKE_BUILD = cmake --build _build/
 
 ifeq ($(REAL_INSTALL_DIR), "")
@@ -41,4 +42,4 @@ uninstall:
 		"$(INSTALL_DIR)"/share/man/man1/dev-conf.1.gz
 
 clean:
-	rm -rf _build/
+	rm -rf _build/ dev-conf/_build devlib/_build

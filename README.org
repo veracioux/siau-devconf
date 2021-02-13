@@ -79,7 +79,6 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
          "deviceId": "...",
          "name": "Naziv C++ klase",
          "desc": "Ljudima čitljiv opis",
-         "category": "...",
          "functions": [
              { // Funkcija 1
                  "name": "nazivMetode", "friendly": "Lijepi naziv",
@@ -118,12 +117,6 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
      jedinstven za svaki model uređaja.
 **** ~desc~
      Predstavlja kratak tekstualni opis uređaja.
-**** ~category~
-     Određuje konceptualnu grupu kojoj pripada ovaj uređaj. Ovaj parametar se
-     može iskoristiti za uljepšavanje reprezentacije uređaja na GUI. Na primjer, ako je
-     njegova vrijednost ~Temperature~, onda će pored uređaja u GUI biti
-     prikazana ikona termometra, itd.
-
 *** Niz ~functions~
      Ovaj niz predstavlja niz funkcija koje uređaj može obavljati. Korisnik
      zadaje (pritiskom dugmeta, izborom iz liste ili sl.) komandu. Korisnik ovu
@@ -221,7 +214,6 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
           "name": "SmartLight",
           "vendorId": "ETF",
           "deviceId": "LX34-U6M",
-          "category": "Light",
           "values": [
               {
                   "name": "getBrightness", "friendly": "Brightness",
@@ -432,7 +424,6 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
         "name": "SmartPlug",
         "vendorId": "ETF",
         "deviceId": "SP-51-3010",
-        "category": "Plug",
         "desc": "A smart plug",
 
         "functions": [
