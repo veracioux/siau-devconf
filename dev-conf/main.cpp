@@ -1,3 +1,5 @@
+/** @file main.cpp */
+
 #include "file.h"
 #include "symbols.h"
 #include "devlib/json.h"
@@ -9,11 +11,22 @@
 #include <QList>
 //#include <QJsonDocument>
 
+/**
+  * Bool value that indicates if the first argument in the list `args` is
+  * equal to `o1` or `o2`. `o1` is the long option name (e.g. --help) and
+  * `o2` is the short option name (e.g. -h).
+  */
 #define is_opt(args, o1, o2) ( !args.empty() \
         && (args.front() == (o1) || args.front() == (o2)))
 
 #define if_opt(args, o1, o2) if (is_opt(args, o1, o2))
 
+/**
+ * @brief Take the first argument from a list of arguments, then pop it.
+ * @param arglist The list of arguments.
+ * @param defaultValue Fallback value in case `arglist` is empty.
+ * @return The first argument from `arglist`.
+ */
 QString takeArg(QList<QString> &arglist,
         const QString &defaultValue = "")
 {
@@ -27,6 +40,15 @@ QString takeArg(QList<QString> &arglist,
     return str;
 }
 
+/**
+ * @brief Generate template JSON files in the specified directory.
+ *
+ * This function is to be called when the `--setup` option is
+ * specified in the command line.
+ *
+ * @param setupDir The target directory
+ * @return Whether the operation was successful.
+ */
 bool setup(const QString &setupDir)
 {
     // File factory_device.json
@@ -64,14 +86,16 @@ int main(int argc, char *argv[])
             return 1;
     }
 
-    // Option input-dir, specified directory contains configured JSON files
+    // Option --input-dir, specified directory is supposed to
+    // contain configured JSON files
     if_opt (args, "--input-dir", "-i")
     {
         args.pop_front();
         input_dir = takeArg(args, ".");
     }
 
-    // Option output-dir, specified directory contains generated source files
+    // Option --output-dir, specified directory is supposed to
+    // contain generated source files
     if_opt (args, "--output-dir", "-o")
     {
         args.pop_front();
@@ -81,14 +105,14 @@ int main(int argc, char *argv[])
     if (input_dir == "" && output_dir == "")
         return 0;
 
-    // Output dir not specified
+    // Output dir not specified, default to ./
     if (input_dir != "" && output_dir == "")
         output_dir = ".";
-    // Input dir not specified
+    // Input dir not specified, default to ./
     if (output_dir != "" && input_dir == "")
         input_dir = ".";
 
-    // Parse JSON into device.h
+    // Parse JSON files into device.h
     Device data = jsonParseDevice(input_dir + "/factory_device.json");
     write(data, TEMPLATE_DIR "/device.h.in", output_dir + "/device.h");
 

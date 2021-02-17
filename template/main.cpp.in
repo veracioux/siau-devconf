@@ -1,9 +1,9 @@
 #include "mbed.h"
 
 // TODO
-#define IP_ADDR     192.168.1.100
-#define SUBNET_MASK 255.255.255.0 // (CIDR 24)
-#define DEFAULT_GW  192.168.1.1
+#define IP_ADDR     $ip
+#define SUBNET_MASK $subnet_mask
+#define DEFAULT_GW  $default_gateway
 
 void mqttConnect()
 {

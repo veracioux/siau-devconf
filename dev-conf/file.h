@@ -1,3 +1,6 @@
+/**
+  * @file file.h
+  */
 #ifndef FILE_H
 #define FILE_H
 
@@ -13,6 +16,12 @@ bool copyFile(const QString &source, const QString &destination);
 /**
  * Substitute device `data` into the contents of file `in` and write the result
  * to the file `out`.
+ *
+ * ### Example:
+ * ~~~
+ * Device data = jsonParseDevice("factory_device.json");
+ * write(data, "device.h.in", "device.h");
+ * ~~~
  */
 void write(const Device &data, const QString &in, const QString &out);
 

@@ -15,7 +15,7 @@ ifeq ($(REAL_INSTALL_DIR), "")
 	REAL_INSTALL_DIR = $(INSTALL_DIR)
 endif
 
-.PHONY: app man
+.PHONY: app man docs
 
 all: app man
 
@@ -26,6 +26,9 @@ app:
 man:
 	mkdir -p _build/
 	rst2man docs/man.rst _build/dev-conf.1.gz
+
+docs:
+	cd docs/ && make html
 
 install: man
 	mkdir -p _build/

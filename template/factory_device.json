@@ -2,16 +2,16 @@
     "name": "TODO",
     "vendorId": "TODO",
     "deviceId": "TODO",
-    "values": [
-        {
-            "name": "TODO methodName", "friendly": "TODO",
-            "valueType": "TODO", "unit": "TODO optional"
-        }
-    ],
     "functions": [
         {
-            "name": "TODO methodName", "friendly": "TODO",
+            "name": "TODO", "friendly": "TODO",
             "valueType": "TODO", "valueRange": [ "TODO" ], "unit": "TODO"
+        }
+    ],
+    "values": [
+        {
+            "name": "TODO", "friendly": "TODO",
+            "valueType": "TODO", "unit": "TODO"
         }
     ]
 }
