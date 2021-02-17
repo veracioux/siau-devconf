@@ -86,26 +86,6 @@ Vrijednost trenutne jačine svjetlosti.
    Klasa ``Device`` u generisanoj datoteci ``device.h`` će sadržavati metodu
    ``getBrightness`` koja vraća vrijednost tipa ``float``.
 
-* Stanje uređaja (State)
-
-Predstavlja trenutno stanje uređaja (On - svjetlo je upaljeno, Off -
-svjetlo je ugašeno). Stanje se čita sa uređaja preko topic-a
-~hodnik/LG-0001/getState~, pri čemu /payload/ sadrži string "On" ili "Off"
-zavisno od stanja uređaja. 
-
-Klasa ~Device~ će sadržavati definiciju enumeriranog tipa ~StateOnOff~ sa
-vrijednostima ~Off~ i ~On~, funkciju za konverziju ovog tipa u string i
-obratno, kao i metodu ~getState~, koja vraća vrijednost tipa ~StateOnOff~ i
-koju programer treba da implementira.
-
-Služi za podešavanje jačine svjetlosti. Korisniku je ova opcija na GUI
-prikazana kao "Set Brightness". Prima vrijednost tipa ~float~ iz opsega od
-0.0 do 100.0, pri čemu je na GUI uz to prikazana i mjerna jedinica "%". U
-klasi ~Device~ iz ~device.h~ se generiše istoimena funkcija koja prima
-vrijednost tipa ~float~. Zadana vrijednost se šalje uređaju putem topic-a
-~hodnik/LG-0001/setBrightness~.
-
-
 Korisnička konfiguracija
 ++++++++++++++++++++++++
     

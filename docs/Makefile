@@ -32,9 +32,10 @@ prepare-man: man
 	@mkdir -p _intermediate/man
 	@## Group (in same subshell)
 	@DEST=_intermediate/man/dev-conf.rst; \
-	echo -e "========\ndev-conf\n========\n" > $$DEST; \
-	echo -e "NAME\n====\n\n    dev-conf" \
-	        "- Komanda za generisanje C++ predloška za MBED\n" >> $$DEST; \
+	echo ======== > $$DEST; echo dev-conf >> $$DEST; echo ======== >> $$DEST; \
+	echo NAME >> $$DEST; echo ==== >> $$DEST; echo >> $$DEST; echo >> $$DEST; \
+	echo "    dev-conf - Komanda za generisanje C++ predloška za MBED" >> $$DEST; \
+	echo >> $$DEST; \
 	cat man/dev-conf.rst >> $$DEST
 	@## End-group
 
@@ -44,4 +45,4 @@ mv-templates:
 		_build/files/
 
 clean:
-	rm -rf _build/
+	rm -rf _build/ _intermediate/

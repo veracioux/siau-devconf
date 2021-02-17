@@ -47,3 +47,4 @@ if os.environ.get('READTHEDOCS', False):
     subprocess.call('make mv-templates', shell=True)
     subprocess.call('make doxygen', shell=True)
     subprocess.call('make prepare-man', shell=True)
+
