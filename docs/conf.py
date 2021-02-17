@@ -75,4 +75,3 @@ class Collapse(Directive):
 
 def setup(app):
     app.add_directive('collapse', Collapse)
-

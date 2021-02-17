@@ -12,7 +12,11 @@ DESCRIPTION
 
 Program *dev-conf* se koristi za generisanje predloška za programiranje
 MBED uređaja za pametnu kuću. Preporučuje se da rezultujuće datoteke
+<<<<<<< HEAD
 budu smještene u isti direktorij koji će se koristiti kao *workspace* za
+=======
+budu smještene u isti folder koji će se koristiti kao *workspace* za
+>>>>>>> a5ec6f8 (Add man directory)
 programiranje kroz okruženje MBED.
 
 Osnovni predlošci datoteka se mogu generisati korištenjem komande
