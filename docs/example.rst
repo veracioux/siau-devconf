@@ -11,20 +11,22 @@ Tvornička konfiguracija
 +++++++++++++++++++++++
 
 Sadržaj datoteke ``factory_device.json``
-   .. literalinclude:: _build/files/SmartLight.json
-      :language: json
+   ..
 
-Vrijednosti uređaja (niz ``values``)
-####################################
+.. literalinclude:: _build/files/SmartLight.json
+   :language: json
 
-.. _value_on_off:
+Podaci iz uređaja (niz ``data``)
+################################
+
+.. _data_on_off:
 
 ON/OFF stanje lampe
 *******************
 
 .. literalinclude:: _build/files/SmartLight.json
    :language: json
-   :lines: 20-23
+   :lines: 21-24
    :dedent: 8
 
 Stanje koje određuje da li je lampa uključena ili isključena.
@@ -39,7 +41,7 @@ Jačina svjetlosti
 
 .. literalinclude:: _build/files/SmartLight.json
    :language: json
-   :lines: 16-19
+   :lines: 17-20
    :dedent: 8
 
 Funkcije uređaja (niz ``functions``)
@@ -61,7 +63,7 @@ Pri tome, nisu obje funkcije omogućene istovremeno. Nema smisla paliti sijalicu
 ako je već upaljena ili gasiti sijalicu ako je već ugašena. Atribut ``if``
 određuje kada je koja podfunkcija omogućena. U ovom slučaju podfunkcija
 ``turnOn`` je omogućena ako je sijalica u isključenom stanju, tj. kada je
-vrijednost :ref:`getState <value_on_off>` jednaka ``Off``. U suprotnom je
+vrijednost :ref:`getState <data_on_off>` jednaka ``Off``. U suprotnom je
 omogućena funkcija ``turnOff``.
 
 
@@ -76,7 +78,7 @@ Postavi jačinu svjetlosti
 
 .. literalinclude:: _build/files/SmartLight.json
    :language: json
-   :lines: 10-13
+   :lines: 10-14
    :dedent: 8
 
 Vrijednost trenutne jačine svjetlosti.
@@ -90,16 +92,18 @@ Korisnička konfiguracija
 ++++++++++++++++++++++++
     
 Sadržaj datoteke ``user_device.json``
-   .. code-block:: json
+   ..
 
-      {
-          "name": "Pametna sijalica 1",
-          "databaseId": "123",
-          "serialNo": "LG-0001",
-          "location": "hodnik",
-          "ip": "192.168.1.100",
-          "subnet_mask": "255.255.255.0",
-          "default_gateway": "192.168.1.1"
-      }
+.. code-block:: json
+
+   {
+       "name": "Pametna sijalica 1",
+       "databaseId": "123",
+       "serialNo": "LG-0001",
+       "location": "hodnik",
+       "ip": "192.168.1.100",
+       "subnet_mask": "255.255.255.0",
+       "default_gateway": "192.168.1.1"
+   }
 
 Identifikacijski parametri su proizvoljno odabrani.
