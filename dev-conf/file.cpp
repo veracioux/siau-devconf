@@ -13,4 +13,5 @@ bool copyFile(const QString &source, const QString &destination)
 
 void write(const Device &data, const QString &in, const QString &out)
 {
+    // TODO implement
 }

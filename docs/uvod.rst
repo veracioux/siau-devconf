@@ -77,6 +77,9 @@ pomoću sljedeće komande:
 
 Kao rezultat, biće kreirane sljedeće datoteke. 
 
+MBED polazni workspace
+++++++++++++++++++++++
+
 .. code-block:: none
 
     mbed-workspace/
@@ -88,6 +91,7 @@ Kao rezultat, biće kreirane sljedeće datoteke.
 
 Pri tome su JSON datoteke prosto kopirane iz ulaznog direktorija u izlazni.
 Nakon ovog koraka, sve što je preostalo je implementirati funkcionalnost u ovim
-datotekama.
+datotekama. Konfigurator uređaja je učinio svoj dio, ostalo je zadatak
+programera.
 
 .. todo:: eventualno generisati i ostale mbed datoteke korištenjem mbed-cli?

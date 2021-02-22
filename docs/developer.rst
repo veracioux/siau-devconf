@@ -7,20 +7,20 @@ Razvoj programa dev-conf
 Definirane funkcije
 ===================
 
-Datoteka ``main.cpp``
----------------------
+Datoteka `main.cpp`
+-------------------
 
 .. doxygenfile:: main.cpp
 
-Datoteka ``file.h``
--------------------
+Datoteka `file.h`
+-----------------
 
 Sadrži generičke operacije sa datotekama koje se koriste u projektu.
 
 .. doxygenfile:: file.h
 
-Datoteka ``symbols.h.in``
--------------------------
+Datoteka `symbols.h.in`
+-----------------------
 
 Sadrži ``#define`` direktive čije vrijednosti zavise od instalacijskih
 parametara. Na primjer, u ovoj datoteci je definiran simbol ``TEMPLATE_DIR``

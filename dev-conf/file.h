@@ -14,10 +14,12 @@
  */
 bool copyFile(const QString &source, const QString &destination);
 /**
- * Substitute device `data` into the contents of file `in` and write the result
+ * Insert the device `data` into the template file `in` and write the result
  * to the file `out`.
  *
- * ### Example:
+ * @note `in` and `out` are file paths.
+ *
+ * **Example:**
  * ~~~
  * Device data = jsonParseDevice("factory_device.json");
  * write(data, "device.h.in", "device.h");

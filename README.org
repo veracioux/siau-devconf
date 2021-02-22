@@ -5,6 +5,8 @@ uređaj. Naime, na osnovu odabranih konfiguracijskih parametara se generiše
 programski kod koji je zatim potrebno uploadovati na mikrokontroler uređaja
 korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se zadaju u JSON formatu.
 
+** OVA DATOTEKA JE U FAZI PREPRAVKE - NEMOJTE ČITATI!
+
 * NAPOMENA: JOŠ UVIJEK NIJE TESTIRANO NA WINDOWS-u - NEMOJTE POKRETATI NI ZA ŽIVU GLAVU!
 
 * Opis principa
@@ -84,38 +86,3 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
   Međutim, source ovog manpage-a je već itekako čitljiv, pogotovo na
   GitHub/GitLab-u.
 
-* Primjer korištenja
-
-  Najprije je potrebno instalirati program ~dev-conf~ negdje. Za ovo pogledati
-  poglavlje *BUILD*, te potpoglavlje instalacija. Poželjno je instalirati program
-  na neku lokaciju koja je u ~PATH~. Ovo nije neophodno, ali pojednostavljuje
-  stvar.
-
-  Nakon što je sve spremno, potrebno je izvršiti sljedeće komande.
-
-  #+begin_src shell
-    mkdir input_dir/ && dev-conf --setup input_dir/
-  #+end_src
-  
-  U folderu ~input_dir/~ će biti generisani template JSON datoteke, koje je
-  potrebno popuniti sa konkretnim konfiguracijskim parametrima uređaja. *Trenutno
-  je implementiran samo dio funkcionalnosti i to za fajl* ~factory_device.json~. I
-  za taj fajl, implementirano je samo parsiranje atributa ~name~, ~vendorId~ i
-  ~deviceId~. Pri tome, atribut ~name~ mora biti validno ime C++ klase. Ostale
-  atribute ne vrijedi mijenjati jer nemaju efekta (još uvijek).
-
-  Kada završite editovanje ove datoteke, pokrenite sljedeću komandu:
-  #+begin_src shell
-    mkdir output_dir/ && dev-conf --input-dir input_dir/ --output-dir output_dir/
-  #+end_src
-
-  Et voilà!
-  Sada se u folderu ~output_dir/~ nalaze potrebni source fajlovi i možete započeti
-  programiranje MBED uređaja! (TODO naravno, trenutno baš i ne možete jer nije
-  sve implementirano).
-
-  Da biste se uvjerili da je sve ispravno, otvorite datoteku ~output_dir/device.h~
-  i provjerite da li je naziv klase isti kao atribut ~name~ u fajlu
-  ~factory_device.json~. Također, povratne vrijednosti iz generisanih metoda u toj
-  klasi bi trebale odgovarati atributima koje ste zadali u datoteci
-  ~input_dir/factory_device.json~.

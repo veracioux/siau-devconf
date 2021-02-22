@@ -12,7 +12,7 @@
             "valueType": "float", "valueRange": [ 0.0, 100.0 ], "unit": "%"
         }
     ],
-    "values": [
+    "data": [
         {
             "name": "getBrightness", "friendly": "Brightness",
             "valueType": "float", "unit": "%"

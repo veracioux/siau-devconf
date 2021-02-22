@@ -26,6 +26,12 @@ iz JSON datoteka generisati C++ datoteke koje se popunjavaju samo osnovnim
 deklaracijama koje su specifične za uređaj, dok programer kasnije implementira
 funkcionalnost.
 
+Generišu se sljedeće datoteke:
+
+* :ref:`main.cpp.in <main_cpp_in>` :menuselection:`-->` `main.cpp`
+* :ref:`device.h.in <device_h_in>` :menuselection:`-->` `device.h`
+* Prazna datoteka `device.cpp`
+
 JSON datoteke
 -------------
 
@@ -69,7 +75,7 @@ Niz ``data``
     
 Atribut ``name``
 ****************
-   Format: Ispravan naziv C++ funkcije.
+   Format: Ispravan naziv C++ funkcije koji ne završava sa ``_response``.
       ..
 
    Jedinstveni identifikator koji ujedno predstavlja i ime metode u C++ klase
@@ -178,7 +184,8 @@ Atribut ``if``
 
 ----
 
-.. include:: /inc/startdetails.rst
+|startexample|
+
 .. literalinclude:: _build/files/SmartLight.json
    :language: json
    :lines: 10-14
@@ -197,8 +204,10 @@ imati parametar je od 0.0 do 100.0. Mjerna jedinica parametra je `%`.
    ograničio opseg vrijednosti koje korisnik može unijeti. Ovaj atribut se ne
    koristi prilikom implementacije uređaja na mikrokontroleru.
 
-.. include:: /inc/enddetails.rst
-.. include:: /inc/startdetails.rst
+|endcollapse|
+
+|startexample|
+
 .. literalinclude:: _build/files/SmartLight.json
    :language: json
    :lines: 6-9
@@ -217,7 +226,7 @@ Stanje omogućenosti funkcije određuje atribut ``if``. Funkcija ``turnOn`` je
 omogućena ako je podatak ``getState`` jednak ``Off``, a u suprotnom je omogućena
 funkcija ``turnOff``.
 
-.. include:: /inc/enddetails.rst
+|endcollapse|
 
 ----
 
@@ -248,17 +257,62 @@ C++ datoteke
 
    Ovaj odjeljak je od interesa samo za programere uređaja.
 
+.. _device_h_in:
+
 Datoteka `device.h.in`
 ++++++++++++++++++++++
 
 .. literalinclude:: _build/files/device.h.in
    :language: c++
 
+Ova datoteka je predložak za datoteku `device.h` koja se treba generisati u
+**MBED workspace**\-u. Gdje god se u datoteci nađu alfanumerički znakovi ispred
+kojih se nalazi znak ``$`` treba se ubaciti vrijednost odgovarajućeg atributa
+uređaja. Svaki takav atribut je definiran u datoteci
+:ref:`factory_device.json<factory_device_json>` tog uređaja. Datoteka
+:ref:`user_device.json<factory_device_json>` se ovdje ne koristi.
+
+----
+
+|startexample|
+
+Ako je u datoteci `factory_device.json` definiran sljedeći atribut uređaja:
+
+.. code-block:: json
+
+   {
+       "...": "...",
+       "vendorId": "ETF_SIAU",
+       "...": "..."
+   }
+
+sljedeća linija iz datoteke `device.h.in`
+
+.. code-block:: c++
+
+   const char *getVendorId() const { return "$vendorId"; }
+
+će biti zamijenjena sa:
+
+.. code-block:: c++
+
+   const char *getVendorId() const { return "ETF_SIAU"; }
+
+|endcollapse|
+
+----
+
+.. _main_cpp_in:
+
 Datoteka `main.cpp.in`
 ++++++++++++++++++++++++
 
 .. literalinclude:: _build/files/main.cpp.in
    :language: c++
+
+Za generisanje ove datoteke se koristi datoteka :ref:`user_device.json
+<user_device_json>`. Vrijedi sličan princip kao za datoteku :ref:`device.h
+<device_h_in>`.
 
 .. todo:: Ovaj dio je nepotpun. Potrebno je odrediti šta će se generisati u ovoj
    datoteci, da li će se uopšte vršiti konfigurisanje ove datoteke i sl.

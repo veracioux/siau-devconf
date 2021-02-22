@@ -27,9 +27,6 @@ man:
 	mkdir -p _build/
 	rst2man docs/man.rst _build/dev-conf.1.gz
 
-docs:
-	cd docs/ && make html
-
 install: man
 	mkdir -p _build/
 	$(CMAKE) -DTEMPLATE_DIR="$(REAL_INSTALL_DIR)/share/dev-conf" \
