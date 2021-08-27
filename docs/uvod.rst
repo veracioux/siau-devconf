@@ -75,10 +75,10 @@ pomoću sljedeće komande:
    `mbed-workspace/`, moguće je zadati bilo koje druge direktorije. Ako zadani
    direktoriji ne postoje, biće kreirani.
 
-Kao rezultat, biće kreirane sljedeće datoteke. 
-
 MBED polazni workspace
 ++++++++++++++++++++++
+
+Kao rezultat prethodne komande biće kreirane sljedeće datoteke:
 
 .. code-block:: none
 

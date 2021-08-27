@@ -1,7 +1,7 @@
 {
     "name": "SmartPlug",
     "vendorId": "ETF",
-    "deviceId": "LO-51-3010",
+    "model": "LO-51-3010",
     "deviceType": "Plug",
     "desc": "A smart plug",
 

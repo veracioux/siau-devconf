@@ -10,7 +10,7 @@ public:
 
     // BASIC GETTERS
     const char *getVendorId() const { return "$vendorId"; }
-    const char *getDeviceId() const { return "$deviceId"; }
+    const char *getModel() const { return "$model"; }
     const char *getSerialNo() const { return "$serialNo"; }
 /*** Functions ***/
 // TODO ovdje će biti generisane i metode, ali nismo još implementirali!

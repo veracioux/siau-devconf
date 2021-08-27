@@ -1,7 +1,7 @@
 {
   "name": "Thermostat",
   "vendorId": "ETF",
-  "deviceId": "THM500-A26",
+  "model": "THM500-A26",
   "serialNo": "T12-B456-034",
   "deviceType": "Temperature",
   "desc": "A thermostat",

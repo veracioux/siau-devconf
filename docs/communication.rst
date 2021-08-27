@@ -38,9 +38,9 @@ Zahtjev za konekciju se šalje preko sljedeće MQTT teme::
 
 Payload poruke je sljedeći:
 
-.. centered:: [ :kbd:`deviceId, serialNo` ]
+.. centered:: [ :kbd:`model, serialNo` ]
 
-Pri tome je `deviceId` jedinstvena identifikacija modela uređaja, a `serialNo`
+Pri tome je `model` jedinstvena identifikacija modela uređaja, a `serialNo`
 je jedinstvena identifikacija konkretnog uređaja (broj lične karte uređaja).
 
 Ako je konekcija uspješna, smart-home sistem treba da pošalje povratnu poruku

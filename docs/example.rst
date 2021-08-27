@@ -155,7 +155,7 @@ Datoteka `device.h`
 
        // BASIC GETTERS
        const char *getVendorId() const { return "ETF"; }
-       const char *getDeviceId() const { return "LX34-U6M"; }
+       const char *getModel() const { return "LX34-U6M"; }
        const char *getSerialNo() const { return "LG-0001"; }
 
        void turnOn();

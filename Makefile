@@ -20,7 +20,7 @@ man:
 
 install: man
 	mkdir -p _build/
-	$(CMAKE) -DTEMPLATE_DIR="$(REAL_INSTALL_DIR)/share/devconf" \
+	$(CMAKE) -DTEMPLATE_DIR="$(DESTDIR)/$(PREFIX)/share/devconf" \
 		&& $(CMAKE_BUILD)
 	mkdir -p "$(DESTDIR)/$(PREFIX)"/{bin,share/devconf,share/man/man1}
 	cp ./_build/devconf "$(DESTDIR)/$(PREFIX)"/bin/

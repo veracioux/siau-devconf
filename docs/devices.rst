@@ -6,8 +6,8 @@ Reprezentacija uređaja
 
 Uređaji imaju dva seta parametara:
 
-1. :ref:`tvorničke <factory_device_json>` -- `factory_device.json`
-2. :ref:`korisničke <user_device_json>` -- `user_device.json`
+   1. :ref:`tvorničke <factory_device_json>` -- `factory_device.json`
+   2. :ref:`korisničke <user_device_json>` -- `user_device.json`
 
 *Tvornički parametri* određuju hardverske parametre koji se ne mogu mijenjati i
 koje uređaji posjeduju kada izađu iz fabrike. *Korisnički parametri* su oni koji
@@ -18,8 +18,6 @@ Tvornički parametri se nalaze u centralnoj bazi podataka. Ova baza podataka
 sadrži opise svih uređaja koji su prepoznati. S druge strane, korisnički
 parametri se pohranjuju samo u lokalnoj bazi podataka na nivou kuće.
 
-.. todo:: Dogovoriti sa timom [Logika, GUI] da li ovo ovako uraditi.
-
 Pošto mikrokontroleri obično posjeduju vrlo ograničene resurse, nezgodno je
 vršiti procesiranje JSON datoteka na samom mikrokontroleru. Pogodnije je
 iz JSON datoteka generisati C++ datoteke koje se popunjavaju samo osnovnim
@@ -28,9 +26,9 @@ funkcionalnost.
 
 Generišu se sljedeće datoteke:
 
-* :ref:`main.cpp.in <main_cpp_in>` :menuselection:`-->` `main.cpp`
-* :ref:`device.h.in <device_h_in>` :menuselection:`-->` `device.h`
-* Prazna datoteka `device.cpp`
+   1. :ref:`main.cpp.in <main_cpp_in>` :menuselection:`-->` `main.cpp`
+   2. :ref:`device.h.in <device_h_in>` :menuselection:`-->` `device.h`
+   3. Prazna datoteka `device.cpp`
 
 JSON datoteke
 -------------
@@ -59,7 +57,7 @@ Atribut ``name``
 
 .. todo:: Izbaciti ovaj atribut?
 
-Atributi ``vendorId``, ``deviceId``
+Atributi ``vendorId``, ``model``
 ***********************************
 
    Ovi atributi predstavljaju identifikaciju uređaja i jedinstveni su za svaki
@@ -67,12 +65,12 @@ Atributi ``vendorId``, ``deviceId``
 
 .. _data:
 
-Niz ``data`` 
+Niz ``data``
 ############
 
     Sadrži podatke koje se mogu zatražiti od uređaja. Ovo su najčešće neka
     mjerenja, ili trenutno stanje uređaja.
-    
+
 Atribut ``name``
 ****************
    Format: Ispravan naziv C++ funkcije koji ne završava sa ``_response``.
@@ -108,7 +106,7 @@ Atribut ``valueType``
 Atribut ``valueRange``
 **********************
    .. admonition:: Napomena
-      
+
       Ako atribut ``valueType`` nije korisnički definirani enum tip, onda se
       ovaj atribut **ignoriše**. *Opcionalno*, GUI implementacija može
       iskoristiti ovaj atribut da bi se odredio poželjan broj decimala za prikaz
@@ -157,7 +155,7 @@ Atribut ``valueType``
    vrijednost ``void``. Ovaj parametar predstavlja ulaznu vrijednost koja se
    šalje uređaju da bi izvršio funkciju. To je ujedno i parametar odgovarajuće
    C++ funkcije. Tip ``void`` znači da uređaj ne zahtijeva nikakav
-   parametar za izvršenje funkcije. 
+   parametar za izvršenje funkcije.
 
 Atribut ``valueRange``
 **********************
@@ -176,7 +174,7 @@ Atribut ``if``
    Određuje kada je funkcija omogućena za upotrebu. Uvijek je formata
    ``<DEVICE_DATA> = <VALUE>`` pri čemu su ``<DEVICE_DATA>`` i ``<VALUE>``
    zamijenjeni konkretnim vrijednostima. Dakle funkcija je omogućena kada je
-   podatak ``<DEVICE_DATA>`` jednak ``<VALUE>``. 
+   podatak ``<DEVICE_DATA>`` jednak ``<VALUE>``.
 
    .. admonition:: Napomena
 
@@ -240,7 +238,7 @@ Datoteka `user_device.json`
 Lična karta svakog konkretnog uređaja.
 
 .. literalinclude:: _build/files/user_device.json
-   :language: json           
+   :language: json
 
 .. admonition:: Uputa
    :class: tip

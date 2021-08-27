@@ -49,7 +49,7 @@ QString takeArg(QList<QString> &arglist,
  * @param targetDir The target directory
  * @return Whether the operation was successful.
  */
-bool copy_template(const QString &targetDir)
+bool copyTemplate(const QString &targetDir)
 {
     // File factory_device.json
     if (!copyFile(TEMPLATE_DIR "/factory_device.json",
@@ -67,7 +67,7 @@ bool copy_template(const QString &targetDir)
 
 int main(int argc, char *argv[])
 {
-    QString input_dir = "", output_dir = "";
+    QString input_dir, output_dir;
 
     // Convert arguments to list of strings, for easier manipulation
     QList<QString> args;
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     if_option (args, "--template", "-t")
     {
         args.pop_front();
-        if (!copy_template(takeArg(args, ".")))
+        if (!copyTemplate(takeArg(args, ".")))
             return 1;
     }
 

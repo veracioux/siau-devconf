@@ -1,7 +1,7 @@
 {
     "name": "SmartLight",
     "vendorId": "ETF",
-    "deviceId": "LX34-U6M",
+    "model": "LX34-U6M",
     "functions": [
         [
             { "name": "turnOn", "friendly": "Turn On", "if": "getState=Off" },
