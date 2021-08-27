@@ -1,18 +1,22 @@
+=======
+devconf
+=======
+
 SYNOPSIS
 ========
 
-.. todo:: Trenutno je implementirana samo `--setup` opcija.
+TODO: Trenutno je implementirana samo `--template` opcija.
 
 ::
 
-   dev-conf [--help|-h]
-   dev-conf --setup [<DIR>]
-   dev-conf --input-dir <DIR> --output-dir <DIR>
+   devconf [--help|-h]
+   devconf --template [<DIR>]
+   devconf --input-dir <DIR> --output-dir <DIR>
 
 DESCRIPTION
 ===========
 
-Program *dev-conf* se koristi za generisanje predloška za programiranje MBED
+Program *devconf* se koristi za generisanje predloška za programiranje MBED
 uređaja za pametnu kuću. Preporučuje se da rezultujuće datoteke budu smještene u
 isti direktorij koji će se koristiti kao *workspace* za programiranje kroz
 okruženje MBED.
@@ -21,7 +25,7 @@ Osnovni predlošci datoteka se mogu generisati korištenjem komande
 
 ::
 
-   dev-conf --setup
+   devconf --template
 
 Programer treba ove datoteke popuniti konfiguracijskim parametrima po
 želji.
@@ -30,14 +34,14 @@ Zatim se pomoću komande
 
 ::
 
-   dev-conf --input-dir <DIR> --output-dir <DIR>
+   devconf --input-dir <DIR> --output-dir <DIR>
 
 generiše MBED workspace za programiranje uređaja.
 
 OPTIONS
 =======
 
-`-s [\<DIR\>]`, `--setup [\<DIR\>]`
+`-t [\<DIR\>]`, `--template [\<DIR\>]`
 
    Generiše potrebne predloške JSON datoteka koje korisnik treba da
    popuni željenim početnim konfiguracijskim parametrima. Ako se ne

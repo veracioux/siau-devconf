@@ -1,5 +1,5 @@
 ========================
-Razvoj programa dev-conf
+Razvoj programa devconf
 ========================
 
 .. toctree::

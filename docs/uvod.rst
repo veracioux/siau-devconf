@@ -8,7 +8,7 @@ U kratkim crtama
 ================
 
 Ovaj podmodul ima zadatak da omogući programeru da isprogramira novi pametni
-uređaj. Dolazi sa programom `dev-conf` koji se koristi za generisanje 
+uređaj. Dolazi sa programom `devconf` koji se koristi za generisanje 
 **MBED workspace-a** u kojem će se programirati uređaj.
 
 Konfigurator uređaja se koristi u 3 koraka:
@@ -20,7 +20,7 @@ Konfigurator uređaja se koristi u 3 koraka:
    deklarisane u generisanim C++ fajlovima.
 
 U nastavku je detaljno opisan prethodni postupak. Da biste vidjeli koje opcije
-podržava program `dev-conf`, pogledajte :ref:`MANPAGE <manpage>`.
+podržava program `devconf`, pogledajte :ref:`MANPAGE <manpage>`.
 
 .. _details:
 
@@ -34,7 +34,7 @@ Pokretanjem sljedećeg programa:
 
 .. code-block:: shell
 
-   dev-conf --setup .
+   devconf --template .
 
 će se u trenutnom direktoriju generisati predlošci:
 
@@ -51,7 +51,7 @@ Pokretanjem sljedećeg programa:
 
 .. admonition:: Napomena
 
-   Nije potrebno generisati JSON predloške korištenjem programa `dev-conf`.
+   Nije potrebno generisati JSON predloške korištenjem programa `devconf`.
    Moguće je ove datoteke ručno kreirati, ali prethodni način je jednostavniji.
 
 Način popunjavanja ovih predložaka je opisan u odjeljku :ref:`JSON datoteke`.
@@ -65,7 +65,7 @@ pomoću sljedeće komande:
 
 .. code-block:: shell
 
-    dev-conf --input-dir . --output-dir mbed-workspace/
+    devconf --input-dir . --output-dir mbed-workspace/
 
 .. todo:: Moramo ponovo implementirati nakon što smo reorganizovali projekat.
 

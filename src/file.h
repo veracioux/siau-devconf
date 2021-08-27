@@ -14,7 +14,7 @@
  */
 bool copyFile(const QString &source, const QString &destination);
 /**
- * Insert the device `data` into the template file `in` and write the result
+ * Populate the template from file `in` with device `data` and write the result
  * to the file `out`.
  *
  * @note `in` and `out` are file paths.

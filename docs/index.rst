@@ -9,7 +9,7 @@ SIAU Konfigurator uređaja
    ./devices.rst
    ./communication.rst
    ./integration.rst
-   Uputstvo za dev-conf <_intermediate/man/dev-conf.rst>
+   Uputstvo za devconf <_intermediate/man/devconf.rst>
    ./example.rst
    ./developer.rst
    Biblioteka devlib <./_intermediate/devlib/index.rst>

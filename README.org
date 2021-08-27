@@ -25,7 +25,7 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
   biti dokumentovane sve funkcije.
 
 * BUILD
-  Da bi se izgradio program ~dev-conf~, potrebno je instalirati sljedeće programe.
+  Da bi se izgradio program ~devconf~, potrebno je instalirati sljedeće programe.
 
 ** Potrebni programi i biblioteke
    - [[https://github.com/open-source-parsers/jsoncpp][jsoncpp]]
@@ -41,7 +41,7 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
    #+begin_src shell
      make
    #+end_src
-   Ovo će kreirati program ~dev-conf~ i manpage, koji će biti smješteni u folderu
+   Ovo će kreirati program ~devconf~ i manpage, koji će biti smješteni u folderu
    ~_build/~. Alternativno, moguće je pozvati:
    #+begin_src shell
      make app
@@ -52,7 +52,7 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
    #+end_src
    da bi se ove komponente izgradile pojedinačno.
 
-   *NAPOMENA:* Ovako generisan program ~dev-conf~ se smije pozivati samo iz root
+   *NAPOMENA:* Ovako generisan program ~devconf~ se smije pozivati samo iz root
    foldera projekta, u suprotnom neće raditi korektno.
    
    Ako je potrebno program kompajlirati direktno iz ~CMakeLists.txt~, ova datoteka
@@ -60,17 +60,17 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
    
 ** Instalacija
 
-   Program ~dev-conf~ se može instalirati korištenjem komande:
+   Program ~devconf~ se može instalirati korištenjem komande:
    #+begin_src shell
-     make install INSTALL_DIR=<DIR>
+     make install PREFIX=<DIR>
    #+end_src
    *NAPOMENA:* ~<DIR>~ *mora biti apsolutna putanja. Ovo je od krucijalnog značaja!*
     
    Ako se komanda pozove samo kao ~make install~, tj. ako se ne zada varijabla
-   ~INSTALL_DIR~, program će biti instaliran u folderu ~/usr/local~. U tom slučaju
+   ~PREFIX~, program će biti instaliran u folderu ~/usr/local~. U tom slučaju
    je potreban ~sudo~ pristup.
 
-* Komanda ~dev-conf~
+* Komanda ~devconf~
   
   Ova komanda će se koristiti za generisanje /source datoteka/ na osnovu /JSON
   datoteka/ i predložaka /C++ datoteka/. Dokumentacija (source) ove komande se
@@ -78,10 +78,10 @@ korištenjem [[https://mbed.org][MBED]] platforme. Konfiguracijski parametri se 
   #+begin_src shell
     make man
   #+end_src
-  pri čemu će se generisati *Linux Manpage* ~_build/dev-conf.1.gz~. Ovaj manpage se
+  pri čemu će se generisati *Linux Manpage* ~_build/devconf.1.gz~. Ovaj manpage se
   može otvoriti korištenjem komande (na Linux-u):
   #+begin_src shell
-    man -l _build/dev-conf.1.gz
+    man -l _build/devconf.1.gz
   #+end_src
   Međutim, source ovog manpage-a je već itekako čitljiv, pogotovo na
   GitHub/GitLab-u.

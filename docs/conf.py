@@ -1,3 +1,5 @@
+import sys
+
 # -- Project information -----------------------------------------------------
 
 project = 'SIAU konfigurator uređaja'
@@ -13,9 +15,9 @@ extensions = [
 
 default_role = 'envvar'
 
-breathe_projects = { "dev-conf": "_build/doxygen/xml/",
+breathe_projects = { "devconf": "_build/doxygen/xml/",
         "devlib": "_intermediate/devlib/_build/doxygen/xml/" }
-breathe_default_project = "dev-conf"
+breathe_default_project = "devconf"
 breathe_default_members = ('members', 'protected-members', 'undoc-members')
 
 primary_domain = 'cpp'
@@ -40,6 +42,12 @@ html_theme = 'sphinx_rtd_theme'
 
 html_static_path = ['_static']
 html_css_files = ['custom.css']
+
+# Tweak manpages for inclusion in the HTML version of the docs
+if "html" in sys.argv:
+    from subprocess import call
+
+    call(["make", "prepare-man"])
 
 # -- Custom build for ReadTheDocs --------------------------------------------
 

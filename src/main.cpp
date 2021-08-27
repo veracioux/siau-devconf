@@ -16,10 +16,10 @@
   * equal to `o1` or `o2`. `o1` is the long option name (e.g. --help) and
   * `o2` is the short option name (e.g. -h).
   */
-#define is_opt(args, o1, o2) ( !args.empty() \
+#define is_option(args, o1, o2) ( !args.empty() \
         && (args.front() == (o1) || args.front() == (o2)))
 
-#define if_opt(args, o1, o2) if (is_opt(args, o1, o2))
+#define if_option(args, o1, o2) if (is_option(args, o1, o2))
 
 /**
  * @brief Take the first argument from a list of arguments, then pop it.
@@ -43,25 +43,25 @@ QString takeArg(QList<QString> &arglist,
 /**
  * @brief Generate template JSON files in the specified directory.
  *
- * This function is to be called when the `--setup` option is
+ * This function is to be called when the `--template` option is
  * specified in the command line.
  *
- * @param setupDir The target directory
+ * @param targetDir The target directory
  * @return Whether the operation was successful.
  */
-bool setup(const QString &setupDir)
+bool copy_template(const QString &targetDir)
 {
     // File factory_device.json
     if (!copyFile(TEMPLATE_DIR "/factory_device.json",
-                setupDir + "/factory_device.json"))
+                targetDir + "/factory_device.json"))
         return false;
 
     // File user_device.json
     if (!copyFile(TEMPLATE_DIR "/user_device.json",
-            setupDir + "/user_device.json"))
+            targetDir + "/user_device.json"))
         return false;
 
-    std::cout << "Template JSON files created in " << setupDir.toStdString() << std::endl;
+    std::cout << "Template JSON files created in " << targetDir.toStdString() << std::endl;
     return true;
 }
 
@@ -75,20 +75,20 @@ int main(int argc, char *argv[])
         args.push_back(argv[i]);
 
     // No arguments -- print help
-    if (args.empty() || is_opt(args, "--help", "-h"))
+    if (args.empty() || is_option(args, "--help", "-h"))
         return std::cout << "TODO print help" << std::endl, 1;
 
-    // Option setup, create template files in specified directory
-    if_opt (args, "--setup", "-s")
+    // Option --template, create template files in specified directory
+    if_option (args, "--template", "-t")
     {
         args.pop_front();
-        if (!setup(takeArg(args, ".")))
+        if (!copy_template(takeArg(args, ".")))
             return 1;
     }
 
     // Option --input-dir, specified directory is supposed to
     // contain configured JSON files
-    if_opt (args, "--input-dir", "-i")
+    if_option (args, "--input-dir", "-i")
     {
         args.pop_front();
         input_dir = takeArg(args, ".");
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
     // Option --output-dir, specified directory is supposed to
     // contain generated source files
-    if_opt (args, "--output-dir", "-o")
+    if_option (args, "--output-dir", "-o")
     {
         args.pop_front();
         output_dir = takeArg(args, ".");
@@ -123,4 +123,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-   
