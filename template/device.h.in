@@ -9,6 +9,7 @@ public:
 // TODO ovdje će biti generisani i custom enum tipovi, ali nismo još implementirali!
 
     // BASIC GETTERS
+    const char *getName() const { return "$name"; }
     const char *getVendorId() const { return "$vendorId"; }
     const char *getModel() const { return "$model"; }
     const char *getSerialNo() const { return "$serialNo"; }
