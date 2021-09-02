@@ -1,0 +1,44 @@
+{
+    "name": "SmartAC",
+    "vendorId": "ETF",
+    "deviceId": "SC34-E00",
+    "serialNo": "C12-B400-789",
+    "deviceType": "Temperature",
+    "desc": "Smart Air Conditioner",
+    "functions": [
+        [
+            { "name": "enable", "friendly": "Enable" },
+            { "name": "disable", "friendly": "Disable" }
+        ],
+        {
+            "name": "setTemperature", "friendly": "Set Temperature",
+            "valueType": "float", "valueRange": [ 0.0, 40.0 ], "unit": "°C"
+        },
+        {
+            "name": "setFanSpeed", "friendly": "Set Fan Speed",
+            "valueType": "FanSpeed", "valueRange": [ "Low", "Mid", "High" ]
+        },
+        {
+            "name": "setFanMode", "friendly": "Set Fan Mode",
+            "valueType": "FanMode", "valueRange": [ "Cool", "Heat", "Dry" ]
+        }
+    ],
+    "values": [
+        {
+            "name": "getState", "friendly": "State",
+            "valueType": "StateOnOff", "valueRange": [ "On", "Off" ]
+        },
+        {
+            "name": "getTemperature", "friendly": "Temperature",
+            "valueType": "float", "unit": "°C"
+        },
+        {
+            "name": "getFanSpeed", "friendly": "Fan Speed",
+            "valueType": "FanSpeed"
+        },
+        {
+            "name": "getFanMode", "friendly": "Fan Mode",
+            "valueType": "FanMode"
+        }
+    ]
+}
