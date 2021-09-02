@@ -1,7 +1,7 @@
 {
     "name": "SmartAC",
     "vendorId": "ETF",
-    "deviceId": "SC34-E00",
+    "model": "SC34-E00",
     "serialNo": "C12-B400-789",
     "deviceType": "Temperature",
     "desc": "Smart Air Conditioner",
