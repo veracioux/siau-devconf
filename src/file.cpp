@@ -18,23 +18,15 @@ void write(const Device &data, const QString &in, const QString &out) {
     ofstream out_file(out.toStdString());
     string wordToReplace[] = {"$vendorId", "$model", "$serialNo", "$name"};
 
-    // DODATI U device.h  getModel i getSerialNo...
-    // a u datoteku device.h.in dodati gettere getName() i getDeviceId()
+    QString wordToReplaceWith[] = {data.getVendorId(), data.getModel(),
+                                  data.getSerialNo(), data.getName()};
 
-    QString wordToReplaceWith[] = {data.getVendorId()}; //, data.getModel(),
-                                  //data.getSerialNo(), data.getName()};
+    if (!in_file)
+        throw std::runtime_error("Could not open input file");
 
-    if (!in_file) {
-        cerr << "Could not open!"
-             << "\n";
-        return;
-    }
+    if (!out_file)
+        throw std::runtime_error("Could not open output file");
 
-    if (!out_file) {
-        cerr << "Could not open!"
-             << "\n";
-        return;
-    }
     string line;
 
     while (getline(in_file, line)) {
@@ -42,14 +34,18 @@ void write(const Device &data, const QString &in, const QString &out) {
         for (int i = 0; i < 5; i++) {
             while (true) {
                 size_t pos = line.find(wordToReplace[i]);
-                if (pos != string::npos)
+                if (pos != string::npos) { // word found
                     line.replace(pos, wordToReplace[i].length(),
                                  wordToReplaceWith[i].toStdString());
+                }
                 else
                     break;
             }
         }
 
-        out_file << line << '\n';
+        out_file << line << endl;
     }
+
+    in_file.close();
+    out_file.close();
 }

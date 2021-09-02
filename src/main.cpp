@@ -1,7 +1,6 @@
 /** @file main.cpp */
 
 #include "file.h"
-#include "symbols.h"
 #include "devlib/json.h"
 #include "devlib/device.h"
 
@@ -9,7 +8,6 @@
 #include <iostream>
 #include <QString>
 #include <QList>
-//#include <QJsonDocument>
 
 /**
   * Bool value that indicates if the first argument in the list `args` is
