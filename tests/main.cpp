@@ -1,10 +1,10 @@
 #include <QtTest/QtTest>
 
-#include "file.h"
 #include "devlib/device.h"
-#include <iostream>
+#include "file.h"
 #include <QDir>
 #include <QFile>
+#include <iostream>
 
 class TestWrite : public QObject
 {
@@ -12,15 +12,19 @@ class TestWrite : public QObject
 private slots:
     void testBasicWrite()
     {
-        Device data;
-        data.setName("MyDevice");
-        data.setVendorId("MyVendor");
-        data.setModel("MyModel");
-        data.setSerialNo("XYZ-UVW");
+        // Populate the device with data
+        Device device;
+        device.setName("MyDevice");
+        device.setVendorId("MyVendor");
+        device.setModel("MyModel");
+        device.setSerialNo("XYZ-UVW");
+
+        // Write the file
         QDir("_out").removeRecursively();
         QDir().mkpath("_out");
-        write(data, "files/basic.h.in", "_out/basic.h");
+        write(device, "files/basic.h.in", "_out/basic.h");
 
+        // Compare the output file with expected output
         QFile file1("_out/basic.h"), file2("files/basic.h");
         QVERIFY(file1.open(QIODevice::ReadOnly));
         QVERIFY(file2.open(QIODevice::ReadOnly));
