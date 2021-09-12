@@ -15,6 +15,7 @@
   ],
 
   "data": [
-      { "name": "getStatus", "friendly": "Status", "value": [ "Enabled", "Disabled" ] }
+      { "name": "getStatus", "friendly": "Status", "valueType": "Status",
+        "valueRange": [ "Enabled", "Disabled" ] }
   ]
 }

@@ -13,8 +13,8 @@
     ],
 
     "data": [
-        { "name": "powerUsage", "friendly": "Power Usage", "value": 0.0 },
+        { "name": "powerUsage", "friendly": "Power Usage", "valueType": "float" },
         { "name": "status", "friendly": "Status",
-            "value": [ "Enabled", "Disabled", "Fault" ] }
+            "valueType": "Status", "valueRange": [ "Enabled", "Disabled", "Fault" ] }
     ]
 }

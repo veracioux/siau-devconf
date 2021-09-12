@@ -6,7 +6,7 @@ CONFIG ?= Release
 CMAKE = cmake -DCMAKE_BUILD_TYPE=${CONFIG} -S src/ -B _build/
 CMAKE_BUILD = cmake --build _build/
 
-.PHONY: app man docs
+.PHONY: app man
 
 all: app man
 

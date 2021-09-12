@@ -48,13 +48,17 @@ QString takeArg(QList<QString>& arglist, const QString& defaultValue = "")
  */
 bool copyTemplate(const QString& targetDir)
 {
+    const char* templateDir = std::getenv("DEVCONF_TEMPLATE_DIR");
+    if (templateDir == nullptr)
+        templateDir = TEMPLATE_DIR;
+
     // File factory_device.json
-    if (!copyFile(TEMPLATE_DIR "/factory_device.json",
+    if (!copyFile(QString(templateDir) + "/factory_device.json",
                   targetDir + "/factory_device.json"))
         return false;
 
     // File user_device.json
-    if (!copyFile(TEMPLATE_DIR "/user_device.json",
+    if (!copyFile(QString(templateDir) + "/user_device.json",
                   targetDir + "/user_device.json"))
         return false;
 
@@ -76,7 +80,7 @@ int main(int argc, char* argv[])
     if (args.empty() || is_option(args, "--help", "-h"))
         return std::cout << "TODO print help" << std::endl, 1;
 
-    // Option --template, create template files in specified directory
+    // Create template files in specified directory
     if_option(args, "--template", "-t")
     {
         args.pop_front();
@@ -84,16 +88,14 @@ int main(int argc, char* argv[])
             return 1;
     }
 
-    // Option --input-dir, specified directory is supposed to
-    // contain configured JSON files
+    // Directory containing template device JSON files
     if_option(args, "--input-dir", "-i")
     {
         args.pop_front();
         input_dir = takeArg(args, ".");
     }
 
-    // Option --output-dir, specified directory is supposed to
-    // contain generated source files
+    // Directory that will contain generated C++ files
     if_option(args, "--output-dir", "-o")
     {
         args.pop_front();
@@ -103,16 +105,16 @@ int main(int argc, char* argv[])
     if (input_dir == "" && output_dir == "")
         return 0;
 
-    // Output dir not specified, default to ./
+    // Output dir not specified => default to ./
     if (input_dir != "" && output_dir == "")
         output_dir = ".";
-    // Input dir not specified, default to ./
+    // Input dir not specified => default to ./
     if (output_dir != "" && input_dir == "")
         input_dir = ".";
 
     // Parse JSON files into device.h
     Device data = jsonParseDevice(input_dir + "/factory_device.json");
-    write(data, TEMPLATE_DIR "/device.h.in", output_dir + "/device.h");
+    writeDevice(data, TEMPLATE_DIR "/device.h.in", output_dir + "/device.h");
 
     // TODO just copy the other files for now
     copyFile(TEMPLATE_DIR "/main.cpp.in", output_dir + "/main.cpp");
