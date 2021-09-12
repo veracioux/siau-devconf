@@ -15,7 +15,7 @@ public:
     const char *getSerialNo() const { return "$serialNo"; }
 /*** Functions ***/
 // TODO ovdje će biti generisane i metode, ali nismo još implementirali!
-/*** Values ***/
+/*** Data ***/
 };
 
 #endif // DEVICE_H

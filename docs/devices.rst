@@ -151,7 +151,7 @@ Atribut ``valueType``
       ..
 
    Ima sličnu ulogu kao :ref:`istoimeni atribut <data_valueType>` u sklopu
-   podatka uređaja. Jedna razlika je da ovaj atribut može imati dodatnu
+   podatka uređaja . Jedna razlika je da ovaj atribut može imati dodatnu
    vrijednost ``void``. Ovaj parametar predstavlja ulaznu vrijednost koja se
    šalje uređaju da bi izvršio funkciju. To je ujedno i parametar odgovarajuće
    C++ funkcije. Tip ``void`` znači da uređaj ne zahtijeva nikakav

@@ -26,11 +26,13 @@ install: man
 	cp ./_build/devconf "$(DESTDIR)/$(PREFIX)"/bin/
 	cp ./_build/devconf.1.gz "$(DESTDIR)/$(PREFIX)"/share/man/man1/
 	cp -r ./template/* "$(DESTDIR)/$(PREFIX)"/share/devconf/
+	cp _build/devlib/libdevlib.so "$(DESTDIR)/$(PREFIX)"/lib/
 
 uninstall:
 	rm -rf "$(DESTDIR)/$(PREFIX)"/share/devconf/ \
 		"$(DESTDIR)/$(PREFIX)"/bin/devconf \
 		"$(DESTDIR)/$(PREFIX)"/share/man/man1/devconf.1.gz
+		"$(DESTDIR)/$(PREFIX)"/lib/libdevlib.so
 
 clean:
 	rm -rf _build/ devlib/_build

@@ -14,7 +14,7 @@
     { "name": "setTemp", "friendly": "Temperature", "valueRange": [ 0.0, 2.0 ] }
   ],
 
-  "values": [
+  "data": [
       { "name": "getStatus", "friendly": "Status", "value": [ "Enabled", "Disabled" ] }
   ]
 }

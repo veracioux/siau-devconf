@@ -23,7 +23,7 @@
             "valueType": "FanMode", "valueRange": [ "Cool", "Heat", "Dry" ]
         }
     ],
-    "values": [
+    "data": [
         {
             "name": "getState", "friendly": "State",
             "valueType": "StateOnOff", "valueRange": [ "On", "Off" ]

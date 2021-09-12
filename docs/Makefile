@@ -13,7 +13,7 @@ help:
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  ${O} is meant as a shortcut for ${SPHINXOPTS}.
-html: doxygen prepare-man mv-files devlib
+html: doxygen prepare-man # mv-files # devlib
 	@${SPHINXBUILD} -M html "${SOURCEDIR}" "${BUILDDIR}"
 
 doxygen:
@@ -31,6 +31,7 @@ prepare-man: man
 	@echo Converting manpages back to rst...
 	@mkdir -p _intermediate/man
 	@for file in man/*.rst; do \
+		[ "$$file" = "man/index.rst" ] && continue; \
 		man/prepare-man.sh "$$file" _intermediate/man; \
 	done
 

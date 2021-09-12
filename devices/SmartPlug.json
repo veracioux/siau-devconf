@@ -12,7 +12,7 @@
         ]
     ],
 
-    "values": [
+    "data": [
         { "name": "powerUsage", "friendly": "Power Usage", "value": 0.0 },
         { "name": "status", "friendly": "Status",
             "value": [ "Enabled", "Disabled", "Fault" ] }

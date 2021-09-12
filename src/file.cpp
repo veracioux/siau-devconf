@@ -4,7 +4,8 @@
 #include <fstream>
 #include <iostream>
 
-bool copyFile(const QString &source, const QString &destination) {
+bool copyFile(const QString& source, const QString& destination)
+{
     QString destPath = QFileInfo(destination).absolutePath();
     if (!QDir(destPath).exists() && !QDir().mkpath(destPath))
         return false;
@@ -12,14 +13,16 @@ bool copyFile(const QString &source, const QString &destination) {
     return QFile(source).copy(destination);
 }
 
-void write(const Device &data, const QString &in, const QString &out) {
+void write(const Device& data, const QString& in, const QString& out)
+{
     using namespace std;
     ifstream in_file(in.toStdString());
     ofstream out_file(out.toStdString());
-    string wordToReplace[] = {"$vendorId", "$model", "$serialNo", "$name"};
+    string wordToReplace[] = { "$vendorId", "$model", "$serialNo", "$name" };
 
-    QString wordToReplaceWith[] = {data.getVendorId(), data.getModel(),
-                                  data.getSerialNo(), data.getName()};
+    QString wordToReplaceWith[] = {
+        data.getVendorId(), data.getModel(), data.getSerialNo(), data.getName()
+    };
 
     if (!in_file)
         throw std::runtime_error("Could not open input file");
@@ -35,10 +38,10 @@ void write(const Device &data, const QString &in, const QString &out) {
             while (true) {
                 size_t pos = line.find(wordToReplace[i]);
                 if (pos != string::npos) { // word found
-                    line.replace(pos, wordToReplace[i].length(),
+                    line.replace(pos,
+                                 wordToReplace[i].length(),
                                  wordToReplaceWith[i].toStdString());
-                }
-                else
+                } else
                     break;
             }
         }
