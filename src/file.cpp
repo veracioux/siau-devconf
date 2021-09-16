@@ -48,6 +48,144 @@ QString processLine(QString line, const Device &device)
     return line;
 }
 
+// Helper functions
+
+QString indented(QString str)
+{
+    str.replace("\n", "\n    ");
+    return "    " + str;
+}
+
+bool matchesPlaceholder(const QString &str, const QString &placeholder)
+{
+    QRegExp regex(QStringLiteral("\\s*/\\*\\*\\* %1 \\*\\*\\*/\\s*").arg(placeholder));
+    return regex.exactMatch(str);
+}
+
+QList<const SingleFunction*> extractSingleFunctions(const Function *fun)
+{
+    QList<const SingleFunction*> singleFuncs;
+
+    if (fun->isSingleFunction())
+        singleFuncs = { (SingleFunction*) fun };
+    else
+        singleFuncs = ((const MultiFunction*) fun)->getSubfunctions();
+
+    return singleFuncs;
+}
+
+// C++ symbol writers
+
+QString enumDefinition(const ValueSpec &spec)
+{
+    QString str;
+    QTextStream stream(&str);
+    stream << QStringLiteral("enum %1 {\n").arg(spec.getValueType());
+    stream << indented(spec.getValueRange().join(", "));
+    stream << "\n};\n";
+    return str;
+}
+
+QString functionDeclaration(const SingleFunction &fun)
+{
+    QString str;
+    QTextStream stream(&str);
+    ValueSpec spec = fun.getValueSpec();
+    stream << QStringLiteral("void %1(%2 value);\n")
+              .arg(fun.getName())
+              .arg(spec.getValueType());
+    return str;
+}
+
+QString functionDefinition(const SingleFunction &fun)
+{
+    QString str;
+    QTextStream stream(&str);
+    stream << QStringLiteral("void %1(%2 value)\n")
+              .arg(fun.getName())
+              .arg(fun.getValueSpec().getValueType())
+           << indented("// TODO implement")
+           << "\n}\n";
+    return str;
+}
+
+QString dataDeclaration(const Data &data)
+{
+    QString str;
+    QTextStream stream(&str);
+    stream << QStringLiteral("%1 %2() const;\n")
+              .arg(data.getValueSpec().getValueType())
+              .arg(data.getName());
+    return str;
+}
+
+QString dataDefinition(const Data &data)
+{
+    QString str;
+    QTextStream stream(&str);
+    stream << QStringLiteral("%1 %2()\n")
+              .arg(data.getValueSpec().getValueType())
+              .arg(data.getName())
+           << indented("// TODO implement")
+           << "\n}\n";
+    return str;
+}
+
+/**
+ * @brief Find all enum ValueSpecs in the `device` and return them.
+ */
+QList<ValueSpec> sweepDeviceEnums(const Device &device)
+{
+    // We use QMap so we can discard duplicates
+    QMap<QString, ValueSpec> enums;
+    for (auto *fun : device.getFunctions()) {
+        for (auto *sfun : extractSingleFunctions(fun)) {
+            const ValueSpec &spec = sfun->getValueSpec();
+            if (spec.isCustomEnum())
+                enums[spec.getValueType()] = spec;
+        }
+    }
+    for (auto *data : device.getData()) {
+        const ValueSpec &spec = data->getValueSpec();
+        if (spec.isCustomEnum())
+            enums[spec.getValueType()] = spec;
+    }
+    return enums.values();
+}
+
+QList<const SingleFunction*> sweepDeviceFunctions(const Device &device)
+{
+    QList<const SingleFunction*> functions;
+    for (auto *fun : device.getFunctions()) {
+        for (auto *sfun : extractSingleFunctions(fun)) {
+            functions << sfun;
+        }
+    }
+    return functions;
+}
+
+// BULK WRITERS
+
+void writeEnums(QTextStream &stream, QList<ValueSpec> enums)
+{
+    for (auto &e : enums) {
+        stream << enumDefinition(e);
+        stream << "\n";
+    }
+}
+
+void writeFunctionDeclarations(QTextStream &stream, QList<const SingleFunction*> functions)
+{
+    for (auto *f : functions)
+        stream << functionDeclaration(*f);
+}
+
+void writeDataDeclarations(QTextStream &stream, QList<const Data*> functions)
+{
+    for (auto *d : functions)
+        stream << dataDeclaration(*d);
+}
+
 /**
  * Populate the template from file `in` with the data from `device` and write
  * the result to the file `out`.
@@ -60,29 +198,72 @@ QString processLine(QString line, const Device &device)
  * write(device, "device.h.in", "device.h");
  * ~~~
  */
-void writeDevice(const Device& device, const QString& in, const QString& out)
+void writeDeviceHeader(const Device& device, const QString& in, const QString& out)
 {
-    using namespace std;
-    ifstream in_file(in.toStdString());
-    ofstream out_file(out.toStdString());
-    string wordToReplace[] = { "$vendorId", "$model", "$serialNo", "$name" };
+    QFile inFile(in);
+    QFile outFile(out);
 
-    QString wordToReplaceWith[] = {
-        device.getVendorId(), device.getModel(), device.getSerialNo(), device.getName()
-    };
-
-    if (!in_file)
+    if (!inFile.open(QIODevice::ReadOnly))
         throw std::runtime_error("Could not open input file");
-
-    if (!out_file)
+    if (!outFile.open(QIODevice::WriteOnly))
         throw std::runtime_error("Could not open output file");
 
-    string line;
+    auto enums = sweepDeviceEnums(device);
+    auto functions = sweepDeviceFunctions(device);
+    auto data = device.getData();
 
-    while (getline(in_file, line)) {
-        out_file << processLine(QString::fromStdString(line), device).toStdString() << endl;
+    QTextStream inStream(&inFile), outStream(&outFile);
+
+    while (!inStream.atEnd()) {
+        QString line = inStream.readLine();
+        QString str;
+        QTextStream stream(&str);
+        if (matchesPlaceholder(line, "Enums")) {
+            stream << "// Enums\n";
+            writeEnums(stream, enums);
+            outStream << indented(str);
+        } else if (matchesPlaceholder(line, "Function declarations")) {
+            stream << "// Device functions\n";
+            writeFunctionDeclarations(stream, functions);
+            outStream << indented(str);
+        } else if (matchesPlaceholder(line, "Data declarations")) {
+            stream << "// Device data\n";
+            writeDataDeclarations(stream, data);
+            outStream << indented(str);
+        }
+        else
+            outStream << processLine(line, device) << Qt::endl;
     }
 
-    in_file.close();
-    out_file.close();
+    inFile.close();
+    outFile.close();
+}
+
+void writeDeviceImpl(const Device &device, const QString &out)
+{
+    QFile outFile(out);
+
+    if (!outFile.open(QIODevice::WriteOnly))
+        throw std::runtime_error("Could not open output file");
+
+    auto functions = sweepDeviceFunctions(device);
+    auto data = device.getData();
+
+    QTextStream outStream(&outFile);
+    outStream << "#include \"device.h\"\n\n";
+
+    outStream << "// Device functions\n\n";
+    for (auto *f : functions) {
+        outStream << functionDefinition(*f)
+                  << "\n";
+    }
+
+    outStream << "// Device data\n\n";
+    for (auto *d : data) {
+        outStream << dataDefinition(*d)
+                  << "\n";
+    }
+
+    outFile.close();
+    return;
 }

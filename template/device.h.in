@@ -5,17 +5,18 @@ class Device
 {
 public:
 
-/*** Enum ***/
-// TODO ovdje će biti generisani i custom enum tipovi, ali nismo još implementirali!
+    /*** Enums ***/
 
-    // BASIC GETTERS
+    // Basic device information
     const char *getName() const { return "$name"; }
     const char *getVendorId() const { return "$vendorId"; }
     const char *getModel() const { return "$model"; }
     const char *getSerialNo() const { return "$serialNo"; }
-/*** Functions ***/
-// TODO ovdje će biti generisane i metode, ali nismo još implementirali!
-/*** Data ***/
+
+    /*** Function declarations ***/
+
+    /*** Data declarations ***/
+
 };
 
 #endif // DEVICE_H

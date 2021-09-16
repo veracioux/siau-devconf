@@ -38,6 +38,19 @@ QString takeArg(QList<QString>& arglist, const QString& defaultValue = "")
 }
 
 /**
+ * @brief Obtain template directory.
+ * Uses the environment variable `DEVCONF_TEMPLATE_DIR` if set, otherwise use a
+ * default system path.
+ */
+QString templateDir()
+{
+    const char* templateDir = std::getenv("DEVCONF_TEMPLATE_DIR");
+    if (templateDir == nullptr)
+        return QStringLiteral(TEMPLATE_DIR);
+    return QString(templateDir);
+}
+
+/**
  * @brief Generate template JSON files in the specified directory.
  *
  * This function is to be called when the `--template` option is
@@ -48,10 +61,7 @@ QString takeArg(QList<QString>& arglist, const QString& defaultValue = "")
  */
 bool copyTemplate(const QString& targetDir)
 {
-    const char* templateDir = std::getenv("DEVCONF_TEMPLATE_DIR");
-    if (templateDir == nullptr)
-        templateDir = TEMPLATE_DIR;
-
+    QString templateDir = ::templateDir();
     // File factory_device.json
     if (!copyFile(QString(templateDir) + "/factory_device.json",
                   targetDir + "/factory_device.json"))
@@ -114,10 +124,11 @@ int main(int argc, char* argv[])
 
     // Parse JSON files into device.h
     Device data = jsonParseDevice(input_dir + "/factory_device.json");
-    writeDevice(data, TEMPLATE_DIR "/device.h.in", output_dir + "/device.h");
+    writeDeviceHeader(data, templateDir() + "/device.h.in", output_dir + "/device.h");
+    writeDeviceImpl(data, output_dir + "/device.cpp");
 
     // TODO just copy the other files for now
-    copyFile(TEMPLATE_DIR "/main.cpp.in", output_dir + "/main.cpp");
+    copyFile(templateDir() + "/main.cpp.in", output_dir + "/main.cpp");
     copyFile(input_dir + "/factory_device.json",
              output_dir + "/factory_device.json");
     copyFile(input_dir + "/user_device.json", output_dir + "/user_device.json");

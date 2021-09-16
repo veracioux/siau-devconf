@@ -11,6 +11,7 @@
 using namespace Devlib;
 
 bool copyFile(const QString& source, const QString& destination);
-void writeDevice(const Device& device, const QString& in, const QString& out);
+void writeDeviceHeader(const Device& device, const QString& in, const QString& out);
+void writeDeviceImpl(const Device& device, const QString& out);
 
 #endif // FILE_H
