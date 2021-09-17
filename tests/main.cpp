@@ -41,7 +41,7 @@ private slots:
         // Write the file
         QDir("_out").removeRecursively();
         QDir().mkpath("_out");
-        writeDevice(device, "files/basic.h.in", "_out/basic.h");
+        writeDeviceHeader(device, "files/basic.h.in", "_out/basic.h");
 
         // Compare the output file with expected output
         QFile file1("_out/basic.h"), file2("files/basic.h");

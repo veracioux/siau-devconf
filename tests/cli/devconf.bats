@@ -24,12 +24,14 @@ compare_output_expected() {
     [ "$status" != 0 ]
 }
 
-# TODO
-# @test "devconf --input-dir ... --output-dir ..." {
+@test "devconf --input-dir ... --output-dir ..." {
 
-    # mkdir _out/in_dir
-    # cp "$PROJECT_DIR"/devices/SmartPlug.json _out/in_dir/factory_device.json
+    mkdir _out/in_dir
+    # TODO cp "$PROJECT_DIR"/devices/SmartPlug.json _out/in_dir/factory_device.json
+    devconf --template _out/in_dir
+    mkdir _out/out_dir
+    cp ./deleteme.json _out/in_dir/factory_device.json
 
-    # devconf -i _out/in_dir -o _out/out_dir
+    devconf -i _out/in_dir -o _out/out_dir
 
-# }
+}
