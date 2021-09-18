@@ -1,5 +1,8 @@
 #include "mbed.h"
 
+#include "autogen/mqtt.h"
+#include "autogen/device.h"
+
 // TODO fill with data from JSON
 #define IP_ADDR     $ip
 #define SUBNET_MASK $subnet_mask

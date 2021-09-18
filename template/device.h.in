@@ -1,7 +1,7 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-class Device
+class $name : public GenericDevice
 {
 public:
 
@@ -17,6 +17,7 @@ public:
 
     /*** Data declarations ***/
 
+    void mqttReceive(const char *topic, void *payload, int len) override;
 };
 
 #endif // DEVICE_H
