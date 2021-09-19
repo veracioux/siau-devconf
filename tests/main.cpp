@@ -6,7 +6,12 @@
 #include <QFile>
 #include <iostream>
 
-extern QString processLine(QString, const Device&);
+extern QString processLine(QString, const QMap<QString, QString> &attr);
+
+QString _processLine(QString line, const Device& device)
+{
+    return processLine(line, device.getAttributes());
+}
 
 class TestWrite : public QObject
 {
@@ -16,17 +21,17 @@ private slots:
         Device device;
         device.setName("MyDevice");
         device.setModel("MyModel");
-        QCOMPARE(processLine("class $name", device), "class MyDevice");
-        QCOMPARE(processLine("class $name : $model", device), "class MyDevice : MyModel");
-        QCOMPARE(processLine("string \"$name\"", device), "string \"MyDevice\"");
-        QCOMPARE(processLine("string \"$name\" aftertext $model", device),
+        QCOMPARE(_processLine("class $name", device), "class MyDevice");
+        QCOMPARE(_processLine("class $name : $model", device), "class MyDevice : MyModel");
+        QCOMPARE(_processLine("string \"$name\"", device), "string \"MyDevice\"");
+        QCOMPARE(_processLine("string \"$name\" aftertext $model", device),
                  "string \"MyDevice\" aftertext MyModel");
 
         // Degenerate cases
-        QCOMPARE(processLine("", device), ""); // empty string
-        QCOMPARE(processLine("$", device), "$");
-        QCOMPARE(processLine("$nonexistent", device), "");
-        QCOMPARE(processLine("$nonexistent $model", device), " MyModel");
+        QCOMPARE(_processLine("", device), ""); // empty string
+        QCOMPARE(_processLine("$", device), "$");
+        QCOMPARE(_processLine("$nonexistent", device), "");
+        QCOMPARE(_processLine("$nonexistent $model", device), " MyModel");
     }
 
     void testBasicWrite()
@@ -36,7 +41,7 @@ private slots:
         device.setName("MyDevice");
         device.setVendorId("MyVendor");
         device.setModel("MyModel");
-        device.setSerialNo("XYZ-UVW");
+        device.setDescription("A test device");
 
         // Write the file
         QDir("_out").removeRecursively();
@@ -47,7 +52,8 @@ private slots:
         QFile file1("_out/basic.h"), file2("files/basic.h");
         QVERIFY(file1.open(QIODevice::ReadOnly));
         QVERIFY(file2.open(QIODevice::ReadOnly));
-        QCOMPARE(file1.readAll(), file2.readAll());
+        // NOTE Parentheses are a cheap trick to align Actual-Expected in output
+        QCOMPARE(((((((file1.readAll())))))), file2.readAll());
     }
 };
 

@@ -1,9 +1,7 @@
 {
-    "name": "TODO",
-    "databaseId": "TODO",
     "serialNo": "TODO",
-    "roomId": "TODO",
+    "location": "TODO",
     "ip": "192.168.1.TODO",
-    "subnet_mask": "255.255.255.0 TODO",
-    "default_gateway": "192.168.1.1 TODO"
+    "subnetMask": "255.255.255.0 TODO",
+    "defaultGateway": "192.168.1.1 TODO"
 }

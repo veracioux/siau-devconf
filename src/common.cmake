@@ -16,7 +16,11 @@ find_package(Qt5 COMPONENTS Core REQUIRED)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SRC_DIR}/.. ${SRC_DIR})
 
 # Source files
-add_executable(${EXECUTABLE} ${SRC_DIR}/file.cpp ${SRC_DIR}/generator.cpp)
+add_executable(${EXECUTABLE}
+    ${SRC_DIR}/file.cpp
+    ${SRC_DIR}/generator.cpp
+    ${SRC_DIR}/userdata.cpp
+)
 
 # Dependencies
 add_subdirectory(${SRC_DIR}/../devlib ${CMAKE_CURRENT_BINARY_DIR}/devlib)

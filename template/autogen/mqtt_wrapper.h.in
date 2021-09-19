@@ -1,0 +1,25 @@
+/**
+ * @file mqtt.h
+ *
+ * API wrapper to mbed-mqtt.
+ */
+#ifndef MQTT_WRAPPER_H
+#define MQTT_WRAPPER_H
+
+#include <mbed.h>
+#include <EthernetInterface.h>
+#include <MQTTNetwork.h>
+#include <MQTTClient.h>
+#include <MQTTmbed.h>
+
+EthernetInterface *ethernetInterface();
+
+void ethernetConnect();
+void ethernetConnect(const char *ip, const char *subnetMask,
+        const char *defaultGateway);
+
+void mqttFirstResponder(MQTT::MessageData &msg);
+
+void mqttYield(int timeout_ms);
+
+#endif // MQTT_WRAPPER_H

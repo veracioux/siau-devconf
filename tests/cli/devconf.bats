@@ -32,6 +32,9 @@ compare_output_expected() {
     mkdir _out/out_dir
     cp ./deleteme.json _out/in_dir/factory_device.json
 
-    devconf -i _out/in_dir -o _out/out_dir
+    run devconf -i _out/in_dir -o _out/out_dir
 
+    echo "$output"
+    [ "$status" = 0 ]
+    [ -z "$output" ]
 }

@@ -1,0 +1,10 @@
+#ifndef USER_DEVICE_H
+#define USER_DEVICE_H
+
+#define LOCATION    "$location"
+#define SERIAL_NO   "$serialNo"
+#define IP_ADDR     "$ip"
+#define SUBNET_MASK "$subnetMask"
+#define DEFAULT_GW  "$defaultGateway"
+
+#endif // USER_DEVICE_H

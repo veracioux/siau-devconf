@@ -12,9 +12,9 @@ QString enumDefinition(const ValueSpec &spec)
 {
     QString str;
     QTextStream stream(&str);
-    stream << QStringLiteral("enum %1 {\n").arg(spec.getValueType());
+    stream << QStringLiteral("typedef enum {\n");
     stream << indented(spec.getValueRange().join(", "));
-    stream << "\n};\n";
+    stream << QStringLiteral("\n} %1;\n").arg(spec.getValueType());
     return str;
 }
 
@@ -33,7 +33,8 @@ QString functionDefinition(const SingleFunction &fun)
 {
     QString str;
     QTextStream stream(&str);
-    stream << QStringLiteral("void %1(%2 value)\n{\n")
+
+    stream << QStringLiteral("void Device::%1(%2 value)\n{\n")
               .arg(fun.getName())
               .arg(fun.getValueSpec().getValueType())
            << indented("// TODO implement")
@@ -55,7 +56,8 @@ QString dataDefinition(const Data &data)
 {
     QString str;
     QTextStream stream(&str);
-    stream << QStringLiteral("%1 %2()\n{\n")
+
+    stream << QStringLiteral("%1 Device::%2() const\n{\n")
               .arg(data.getValueSpec().getValueType())
               .arg(data.getName())
            << indented("// TODO implement")

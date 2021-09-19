@@ -3,11 +3,12 @@
 #include "devlib/device.h"
 #include "devlib/json.h"
 #include "file.h"
+#include "userdata.h"
 
+#include <iostream>
 #include <QList>
 #include <QString>
-#include <fstream>
-#include <iostream>
+#include <QDir>
 
 /**
  * Bool value that indicates if the first argument in the list `args` is
@@ -122,16 +123,30 @@ int main(int argc, char* argv[])
     if (output_dir != "" && input_dir == "")
         input_dir = ".";
 
-    // Parse JSON files into device.h
-    Device data = jsonParseDevice(input_dir + "/factory_device.json");
-    writeDeviceHeader(data, templateDir() + "/device.h.in", output_dir + "/device.h");
-    writeDeviceImpl(data, output_dir + "/device.cpp");
+    try {
+        // Parse JSON files into device.h
+        Device device = jsonParseDevice(input_dir + "/factory_device.json");
+        writeDeviceHeader(device, templateDir() + "/iot_device.h.in", output_dir + "/iot_device.h");
+        writeDeviceImpl(device, output_dir + "/iot_device.cpp");
 
-    // TODO just copy the other files for now
-    copyFile(templateDir() + "/main.cpp.in", output_dir + "/main.cpp");
-    copyFile(input_dir + "/factory_device.json",
+        if (!QDir(output_dir).mkpath("autogen"))
+            throw std::runtime_error("Could not create autogen directory");
+
+        UserData userData = UserData::fromJson(input_dir + "/user_device.json");
+        writeUserDeviceData(userData, templateDir() + "/autogen/user_device.h.in",
+                            output_dir + "/autogen/user_device.h");
+
+        // TODO just copy the other files for now
+        copyFile(templateDir() + "/main.cpp.in", output_dir + "/main.cpp");
+        copyFile(input_dir + "/factory_device.json",
              output_dir + "/factory_device.json");
-    copyFile(input_dir + "/user_device.json", output_dir + "/user_device.json");
+        copyFile(input_dir + "/user_device.json", output_dir + "/user_device.json");
+        copyFile(templateDir() + "/autogen/mqtt_wrapper.h.in", output_dir + "/autogen/mqtt_wrapper.h");
+        copyFile(templateDir() + "/autogen/mqtt_wrapper.cpp.in", output_dir + "/autogen/mqtt_wrapper.cpp");
+    } catch (std::exception &e) {
+        std::cerr << "devconf: error: " << e.what();
+        return 1;
+    }
 
     return 0;
 }

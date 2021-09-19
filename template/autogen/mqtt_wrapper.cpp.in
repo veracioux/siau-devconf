@@ -1,0 +1,48 @@
+#include "mqtt_wrapper.h"
+
+static const char *topicPrefix = "$topicPrefix";
+
+static EthernetInterface ethernet;
+
+EthernetInterface *ethernetInterface()
+{
+    return &ethernet;
+}
+
+void ethernetConnect()
+{
+    ethernet.connect();
+}
+
+void ethernetConnect(const char *ip, const char *subnetMask,
+        const char *defaultGateway)
+{
+    SocketAddress ipAddr, mask, gateway;
+
+    ip.set_ip_address(ipAddr);
+    mask.set_ip_address(subnetMask);
+    gateway.set_ip_address(defaultGateway);
+
+    ethernet.set_dhcp(false);
+    ethernet.set_network(_ip, _mask, _gateway);
+    ethernet.connect();
+}
+
+void mqttFirstResponder(MQTT::MessageData &msg)
+{
+    // TODO lenstring
+    // const char *topic = data.topicName.cstring;
+    // int len = data.topicName.lenstring.len;
+    // MQTT::Message msg = data.message;
+    // GenericDevice::instance()->mqttReceive(topic, [>payload<], len);
+}
+
+void mqttYield(int timeout_ms)
+{
+    // TODO
+}
+
+void mqttAutoSubscribe()
+{
+    // TODO automatically connect to handlers for data
+}

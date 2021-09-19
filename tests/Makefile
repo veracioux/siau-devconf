@@ -18,6 +18,7 @@ cpp:
 	@_build/tests
 
 cli: prepare
+	@${MAKE} -C .. CONFIG=RelWithDebInfo 1>/dev/null 2>/dev/null
 	@echo "\n\033[1;35mRunning CLI tests\033[0m\n"
 	@${BATS} cli/devconf.bats
 

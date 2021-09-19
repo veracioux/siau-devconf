@@ -1,23 +1,21 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-class $name : public GenericDevice
+/*** Enums ***/
+
+class Device
 {
 public:
-
-    /*** Enums ***/
 
     // Basic device information
     const char *getName() const { return "$name"; }
     const char *getVendorId() const { return "$vendorId"; }
     const char *getModel() const { return "$model"; }
-    const char *getSerialNo() const { return "$serialNo"; }
 
     /*** Function declarations ***/
 
     /*** Data declarations ***/
 
-    void mqttReceive(const char *topic, void *payload, int len) override;
 };
 
 #endif // DEVICE_H

@@ -19,7 +19,7 @@ bool copyFile(const QString& source, const QString& destination)
     return QFile(source).copy(destination);
 }
 
-QString processLine(QString line, const Device &device)
+QString processLine(QString line, const QMap<QString, QString> &attributes)
 {
     // This code will be explained by an example assuming line == "void $name()".
     // Also assume that device.getName() == "MyDevice".
@@ -37,10 +37,11 @@ QString processLine(QString line, const Device &device)
             // len = 4
             int len = validIds.matchedLength();
             QString replacement;
-            if (Device::textualAttributeNames().contains(match))
-                replacement = device[match];
+            if (attributes.contains(match))
+                replacement = attributes[match];
             else
-                ; // TODO log
+                std::cerr << QStringLiteral("devconf: warning: $%1 not found, expanding to empty string")
+                             .arg(match).toStdString() << std::endl;
             // line = "void " + "MyDevice" + "()"
             line = line.left(i) + replacement + line.mid(i + len + 1);
             i += replacement.length();
@@ -104,6 +105,23 @@ QList<const SingleFunction*> sweepDeviceFunctions(const Device &device)
     return functions;
 }
 
+// helper
+
+void openOutputFile(QFile &out)
+{
+    if (!out.open(QIODevice::WriteOnly))
+        throw std::runtime_error(QStringLiteral("Could not open output file '%1'")
+                                 .arg(out.fileName()).toStdString());
+}
+
+void openInOutFiles(QFile &in, QFile &out)
+{
+    if (!in.open(QIODevice::ReadOnly))
+        throw std::runtime_error(QStringLiteral("Could not open input file '%1'")
+                                 .arg(in.fileName()).toStdString());
+    openOutputFile(out);
+}
+
 /**
  * Populate the template from file `in` with the data from `device` and write
  * the result to the file `out`.
@@ -113,7 +131,7 @@ QList<const SingleFunction*> sweepDeviceFunctions(const Device &device)
  * **Example:**
  * ~~~
  * Device device = jsonParseDevice("factory_device.json");
- * write(device, "device.h.in", "device.h");
+ * write(device, "iot_device.h.in", "iot_device.h");
  * ~~~
  */
 void writeDeviceHeader(const Device& device, const QString& in, const QString& out)
@@ -121,10 +139,7 @@ void writeDeviceHeader(const Device& device, const QString& in, const QString& o
     QFile inFile(in);
     QFile outFile(out);
 
-    if (!inFile.open(QIODevice::ReadOnly))
-        throw std::runtime_error("Could not open input file");
-    if (!outFile.open(QIODevice::WriteOnly))
-        throw std::runtime_error("Could not open output file");
+    openInOutFiles(inFile, outFile);
 
     auto enums = sweepDeviceEnums(device);
     auto functions = sweepDeviceFunctions(device);
@@ -139,7 +154,7 @@ void writeDeviceHeader(const Device& device, const QString& in, const QString& o
         if (matchesPlaceholder(line, "Enums")) {
             stream << "// Enums\n";
             writeEnums(stream, enums);
-            outStream << indented(str);
+            outStream << str;
         } else if (matchesPlaceholder(line, "Function declarations")) {
             stream << "// Device functions\n";
             writeFunctionDeclarations(stream, functions);
@@ -150,7 +165,7 @@ void writeDeviceHeader(const Device& device, const QString& in, const QString& o
             outStream << indented(str);
         }
         else
-            outStream << processLine(line, device) << Qt::endl;
+            outStream << processLine(line, device.getAttributes()) << Qt::endl;
     }
 
     inFile.close();
@@ -161,14 +176,13 @@ void writeDeviceImpl(const Device &device, const QString &out)
 {
     QFile outFile(out);
 
-    if (!outFile.open(QIODevice::WriteOnly))
-        throw std::runtime_error("Could not open output file");
+    openOutputFile(outFile);
 
     auto functions = sweepDeviceFunctions(device);
     auto data = device.getData();
 
     QTextStream outStream(&outFile);
-    outStream << "#include \"device.h\"\n\n";
+    outStream << "#include \"iot_device.h\"\n\n";
 
     outStream << "// Device functions\n\n";
     for (auto *f : functions) {
@@ -184,4 +198,34 @@ void writeDeviceImpl(const Device &device, const QString &out)
 
     outFile.close();
     return;
+}
+
+void writeMqttImpl(const QString &in, const QString &out)
+{
+    QFile inFile(in);
+    QFile outFile(out);
+
+    openInOutFiles(inFile, outFile);
+
+    QString mqttTopic;
+
+    inFile.close();
+    outFile.close();
+}
+
+void writeUserDeviceData(const UserData &data, const QString &in, const QString &out)
+{
+    QFile inFile(in);
+    QFile outFile(out);
+
+    openInOutFiles(inFile, outFile);
+    QTextStream inStream(&inFile), outStream(&outFile);
+
+    while (!inStream.atEnd()) {
+        QString line = inStream.readLine();
+        outStream << processLine(line, data.getAttributes()) << Qt::endl;
+    }
+
+    inFile.close();
+    outFile.close();
 }
