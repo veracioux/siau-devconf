@@ -18,7 +18,7 @@ Sadržaj datoteke `factory_device.json`
 
 Korisnička konfiguracija
 ++++++++++++++++++++++++
-    
+
 Sadržaj datoteke `user_device.json`
    ..
 
@@ -26,12 +26,11 @@ Sadržaj datoteke `user_device.json`
 
    {
        "name": "Pametna sijalica 1",
-       "databaseId": "123",
        "serialNo": "LG-0001",
        "location": "hodnik",
        "ip": "192.168.1.100",
-       "subnet_mask": "255.255.255.0",
-       "default_gateway": "192.168.1.1"
+       "subnetMask": "255.255.255.0",
+       "defaultGateway": "192.168.1.1"
    }
 
 Identifikacijski parametri su proizvoljno odabrani.
@@ -53,8 +52,8 @@ Stanje koje određuje da li je lampa uključena ili isključena.
 
 .. admonition:: Napomena
 
-   U klasi ``Device`` u datoteci `device.h` će biti generisan ``enum`` tip sa
-   nazivom ``StateOnOff``.
+   U klasi ``Device`` u datoteci `iot_device.h` će biti generisan ``enum`` tip
+   sa nazivom ``StateOnOff``.
 
 Jačina svjetlosti
 *****************
@@ -90,7 +89,7 @@ omogućena funkcija ``turnOff``.
 .. admonition:: Napomena
 
    Za ove funkcije će biti generisane metode ``turnOn`` i ``turnOff`` bez
-   parametara u sklopu klase ``Device`` u datoteci `device.h`. Nalog za
+   parametara u sklopu klase ``Device`` u datoteci `iot_device.h`. Nalog za
    izvršavanje ove funkcije se zadaje preko topic-a `hodnik/LG-0001/turnOn`,
    odnosno `hodnik/LG-0001/turnOff`.
 
@@ -106,7 +105,7 @@ Vrijednost trenutne jačine svjetlosti.
 
 .. admonition:: Napomena
 
-   Klasa ``Device`` u generisanoj datoteci `device.h` će sadržavati metodu
+   Klasa ``Device`` u generisanoj datoteci `iot_device.h` će sadržavati metodu
    ``getBrightness`` koja vraća vrijednost tipa ``float``.
 
 Popis korištenih MQTT poruka
@@ -137,8 +136,8 @@ Popis korištenih MQTT poruka
 Generisane C++ datoteke
 +++++++++++++++++++++++
 
-Datoteka `device.h`
-*******************
+Datoteka `iot_device.h`
+***********************
 
 .. code-block::
 

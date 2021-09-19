@@ -64,13 +64,6 @@ OPTIONS
 
    Printa sažetu verziju ovog dokumenta.
 
-ENVIRONMENT
-===========
-
-`DEVCONF_TEMPLATE_DIR`
-----------------------
-Specify a template directory to use instead of the default one.
-
 AUTHOR
 ======
 

@@ -27,8 +27,8 @@ funkcionalnost.
 Generišu se sljedeće datoteke:
 
    1. :ref:`main.cpp.in <main_cpp_in>` :menuselection:`-->` `main.cpp`
-   2. :ref:`device.h.in <device_h_in>` :menuselection:`-->` `device.h`
-   3. Prazna datoteka `device.cpp`
+   2. :ref:`iot_device.h.in <iot_device_h_in>` :menuselection:`-->` `iot_device.h`
+   3. Prazna datoteka `iot_device.cpp`
 
 JSON datoteke
 -------------
@@ -54,8 +54,6 @@ Atribut ``name``
 ****************
 
    Naziv modela uređaja.
-
-.. todo:: Izbaciti ovaj atribut?
 
 Atributi ``vendorId``, ``model``
 ***********************************
@@ -97,8 +95,8 @@ Atribut ``valueType``
    odgovarajućeg topic-a. Može biti ``float``, ``int``, ``bool``, ili naziv
    korisnički-definiranog enumeriranog tipa. Konkretne vrijednosti ovog enum-a
    se zadaju putem atributa ``valueRange`` koji je opisan u nastavku. U headeru
-   `device.h` će se generisati definicija ovog enum tipa, zajedno sa funkcijama
-   koje vrše konverziju ovog tipa u string i obratno.
+   `iot_device.h` će se generisati definicija ovog enum tipa, zajedno sa
+   funkcijama koje vrše konverziju ovog tipa u string i obratno.
 
    Ako se ne navede atribut ``valueType``, onda će se uzeti da je on ``void``, što
    znači da ova funkcija ne zahtijeva nikakav ulazni podatak.
@@ -255,19 +253,21 @@ C++ datoteke
 
    Ovaj odjeljak je od interesa samo za programere uređaja.
 
-.. _device_h_in:
+.. _iot_device_h_in:
 
 Datoteka `device.h.in`
 ++++++++++++++++++++++
 
-.. literalinclude:: _build/files/device.h.in
+.. literalinclude:: _build/files/iot_device.h.in
    :language: c++
 
-Ova datoteka je predložak za datoteku `device.h` koja se treba generisati u
+Ova datoteka je predložak za datoteku `iot_device.h` koja se treba generisati u
 **MBED workspace**\-u. Gdje god se u datoteci nađu alfanumerički znakovi ispred
 kojih se nalazi znak ``$`` treba se ubaciti vrijednost odgovarajućeg atributa
-uređaja. Svaki takav atribut je definiran u datoteci
-:ref:`factory_device.json<factory_device_json>` tog uređaja. Datoteka
+uređaja. Također, svaka linija omeđena znakovima ``/*** ***/`` će biti
+zamijenjena implementacijama odgovarajućih metoda.  Sve što je potrebno za
+generisanje ove datoteke se nalazi u odgovarajućoj datoteci
+:ref:`factory_device.json<factory_device_json>`. Datoteka
 :ref:`user_device.json<factory_device_json>` se ovdje ne koristi.
 
 ----
@@ -284,7 +284,7 @@ Ako je u datoteci `factory_device.json` definiran sljedeći atribut uređaja:
        "...": "..."
    }
 
-sljedeća linija iz datoteke `device.h.in`
+sljedeća linija iz datoteke `iot_device.h.in`
 
 .. code-block:: c++
 
@@ -309,8 +309,8 @@ Datoteka `main.cpp.in`
    :language: c++
 
 Za generisanje ove datoteke se koristi datoteka :ref:`user_device.json
-<user_device_json>`. Vrijedi sličan princip kao za datoteku :ref:`device.h
-<device_h_in>`.
+<user_device_json>`. Vrijedi sličan princip kao za datoteku :ref:`iot_device.h
+<iot_device_h_in>`.
 
 .. todo:: Ovaj dio je nepotpun. Potrebno je odrediti šta će se generisati u ovoj
    datoteci, da li će se uopšte vršiti konfigurisanje ove datoteke i sl.

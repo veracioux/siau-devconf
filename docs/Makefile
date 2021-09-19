@@ -13,7 +13,7 @@ help:
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  ${O} is meant as a shortcut for ${SPHINXOPTS}.
-html: doxygen prepare-man # mv-files # devlib
+html: doxygen prepare-man mv-files devlib
 	@${SPHINXBUILD} -M html "${SOURCEDIR}" "${BUILDDIR}"
 
 doxygen:
@@ -47,7 +47,7 @@ devlib:
 
 mv-files:
 	mkdir -p _build/files
-	cp ../template/* ../src/symbols.h.in ../devices/SmartLight.json \
+	cp -r ../template/* ../devices/SmartLight.json \
 		_build/files/
 
 clean:
