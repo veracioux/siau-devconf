@@ -15,7 +15,8 @@ class UserData
         {"location", ""},
         {"ip", "192.168.1.100"},
         {"subnetMask", "255.255.255.0"},
-        {"defaultGateway", "192.168.1.1"}
+        {"defaultGateway", "192.168.1.1"},
+        {"brokerHost", ""}
     };
 
 public:

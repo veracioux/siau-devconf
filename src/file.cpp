@@ -58,18 +58,6 @@ bool matchesPlaceholder(const QString &str, const QString &placeholder)
     return regex.exactMatch(str);
 }
 
-QList<const SingleFunction*> extractSingleFunctions(const Function *fun)
-{
-    QList<const SingleFunction*> singleFuncs;
-
-    if (fun->isSingleFunction())
-        singleFuncs = { (SingleFunction*) fun };
-    else
-        singleFuncs = ((const MultiFunction*) fun)->getSubfunctions();
-
-    return singleFuncs;
-}
-
 // C++ symbol sweepers
 
 /**
@@ -80,7 +68,7 @@ QList<ValueSpec> sweepDeviceEnums(const Device &device)
     // We use QMap so we can discard duplicates
     QMap<QString, ValueSpec> enums;
     for (auto *fun : device.getFunctions()) {
-        for (auto *sfun : extractSingleFunctions(fun)) {
+        for (auto *sfun : fun->getSingleFunctions()) {
             const ValueSpec &spec = sfun->getValueSpec();
             if (spec.isCustomEnum())
                 enums[spec.getValueType()] = spec;
@@ -98,7 +86,7 @@ QList<const SingleFunction*> sweepDeviceFunctions(const Device &device)
 {
     QList<const SingleFunction*> functions;
     for (auto *fun : device.getFunctions()) {
-        for (auto *sfun : extractSingleFunctions(fun)) {
+        for (auto *sfun : fun->getSingleFunctions()) {
             functions << sfun;
         }
     }

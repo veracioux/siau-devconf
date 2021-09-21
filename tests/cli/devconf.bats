@@ -30,7 +30,7 @@ compare_output_expected() {
     # TODO cp "$PROJECT_DIR"/devices/SmartPlug.json _out/in_dir/factory_device.json
     devconf --template _out/in_dir
     mkdir _out/out_dir
-    cp ./deleteme.json _out/in_dir/factory_device.json
+    cp "$PROJECT_DIR"/devices/SmartLight.json _out/in_dir/factory_device.json
 
     run devconf -i _out/in_dir -o _out/out_dir
 

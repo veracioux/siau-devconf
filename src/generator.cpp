@@ -34,9 +34,14 @@ QString functionDefinition(const SingleFunction &fun)
     QString str;
     QTextStream stream(&str);
 
-    stream << QStringLiteral("void Device::%1(%2 value)\n{\n")
+    QString parameter;
+    if (!fun.getValueSpec().isVoid())
+        parameter = QStringLiteral("%1 value")
+                     .arg(fun.getValueSpec().getValueType());
+
+    stream << QStringLiteral("void Device::%1(%2)\n{\n")
               .arg(fun.getName())
-              .arg(fun.getValueSpec().getValueType())
+              .arg(parameter)
            << indented("// TODO implement")
            << "\n}\n";
     return str;
