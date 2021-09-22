@@ -6,11 +6,15 @@
 #ifndef MQTT_WRAPPER_H
 #define MQTT_WRAPPER_H
 
+#include "user_device.h"
+
 #include <mbed.h>
 #include <EthernetInterface.h>
 #include <MQTTNetwork.h>
 #include <MQTTClient.h>
 #include <MQTTmbed.h>
+
+#define TOPIC_PREFIX LOCATION "/" SERIAL_NO "/"
 
 EthernetInterface *ethernetInterface();
 
@@ -18,8 +22,13 @@ void ethernetConnect();
 void ethernetConnect(const char *ip, const char *subnetMask,
         const char *defaultGateway);
 
+void mqttConnect(const char *brokerHost, int port = 1883);
 void mqttFirstResponder(MQTT::MessageData &msg);
 
+void mqttAutoSubscribe();
+void mqttPublish(const char *topic, void *payload, size_t length);
 void mqttYield(int timeout_ms);
+void mqttCleanup();
+void ethernetCleanup();
 
 #endif // MQTT_WRAPPER_H

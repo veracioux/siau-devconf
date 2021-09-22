@@ -20,8 +20,9 @@ void mqttSend(const char* topic, void* data, int len) {
 int main(void)
 {
     ethernetConnect(IP_ADDR, SUBNET_MASK, DEFAULT_GW);
+    mqttConnect(BROKER_HOST);
+    mqttAutoSubscribe();
     while (true) mqttYield(100);
-    // Connect MQTT
     // Listen for events and call mqttReceive when appropriate
     // Whatever else
     return 0;

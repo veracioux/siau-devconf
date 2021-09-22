@@ -1,16 +1,18 @@
 #include "message_handler.h"
+#include "mqtt_wrapper.h"
+#include "iot_device.h"
 
 bool verifyFloatPayloadSize(size_t len)
 {
-    return $sizeFloat;
+    return 4;
 }
 bool verifyIntPayloadSize(size_t len)
 {
-    return $sizeInt;
+    return 4;
 }
 bool verifyBoolPayloadSize(size_t len)
 {
-    return $sizeBool;
+    return 4;
 }
 bool verifyVoidPayloadSize(size_t len)
 {
@@ -18,5 +20,7 @@ bool verifyVoidPayloadSize(size_t len)
 }
 bool verifyEnumPayloadSize(size_t len)
 {
-    return $sizeEnum;
+    return 4;
 }
+
+/*** Message handler implementations ***/

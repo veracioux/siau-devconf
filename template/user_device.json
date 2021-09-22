@@ -3,5 +3,6 @@
     "location": "TODO",
     "ip": "192.168.1.TODO",
     "subnetMask": "255.255.255.0 TODO",
-    "defaultGateway": "192.168.1.1 TODO"
+    "defaultGateway": "192.168.1.1 TODO",
+    "brokerHost": "TODO"
 }

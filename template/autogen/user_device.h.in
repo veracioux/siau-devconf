@@ -6,5 +6,6 @@
 #define IP_ADDR     "$ip"
 #define SUBNET_MASK "$subnetMask"
 #define DEFAULT_GW  "$defaultGateway"
+#define BROKER_HOST "$brokerHost"
 
 #endif // USER_DEVICE_H

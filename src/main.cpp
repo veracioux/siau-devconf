@@ -135,6 +135,10 @@ int main(int argc, char* argv[])
         UserData userData = UserData::fromJson(input_dir + "/user_device.json");
         writeUserDeviceData(userData, templateDir() + "/autogen/user_device.h.in",
                             output_dir + "/autogen/user_device.h");
+        writeMessageHandlers(templateDir() + "/autogen/message_handler.h.in",
+                             output_dir + "/autogen/message_handler.h", device);
+        writeMessageHandlers(templateDir() + "/autogen/message_handler.cpp.in",
+                             output_dir + "/autogen/message_handler.cpp", device);
 
         // TODO just copy the other files for now
         copyFile(templateDir() + "/main.cpp.in", output_dir + "/main.cpp");

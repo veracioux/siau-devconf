@@ -17,6 +17,6 @@ void writeDeviceImpl(const Device& device, const QString& out);
 void writeUserDeviceData(const UserData &data, const QString& in, const QString& out);
 
 void writeMqttImpl(const QString& in, const QString& out);
-void writeMessageHandlers(const QString& in, const QString& out);
+void writeMessageHandlers(const QString& in, const QString& out, const Device& device);
 
 #endif // FILE_H

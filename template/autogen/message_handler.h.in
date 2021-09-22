@@ -1,6 +1,13 @@
 #ifndef MESSAGE_HANDLER_H
 #define MESSAGE_HANDLER_H
 
+#include <cstddef>
+
+namespace MQTT {
+    struct MessageData;
+}
+
+// Payload verification
 bool verifyFloatPayloadSize(size_t len);
 bool verifyIntPayloadSize(size_t len);
 bool verifyBoolPayloadSize(size_t len);

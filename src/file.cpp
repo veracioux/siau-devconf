@@ -173,21 +173,20 @@ void writeDeviceImpl(const Device &device, const QString &out)
     outStream << "#include \"iot_device.h\"\n\n";
 
     outStream << "// Device functions\n\n";
-    for (auto *f : functions) {
+    for (auto *f : functions)
         outStream << functionDefinition(*f)
                   << "\n";
-    }
 
     outStream << "// Device data\n\n";
-    for (auto *d : data) {
+    for (auto *d : data)
         outStream << dataDefinition(*d)
                   << "\n";
-    }
 
     outFile.close();
     return;
 }
 
+// TODO remove maybe
 void writeMqttImpl(const QString &in, const QString &out)
 {
     QFile inFile(in);
@@ -212,6 +211,41 @@ void writeUserDeviceData(const UserData &data, const QString &in, const QString 
     while (!inStream.atEnd()) {
         QString line = inStream.readLine();
         outStream << processLine(line, data.getAttributes()) << Qt::endl;
+    }
+
+    inFile.close();
+    outFile.close();
+}
+
+void writeMessageHandlers(const QString &in, const QString &out, const Device &device)
+{
+    QFile inFile(in);
+    QFile outFile(out);
+
+    openInOutFiles(inFile, outFile);
+    QTextStream inStream(&inFile), outStream(&outFile);
+
+    auto functions = sweepDeviceFunctions(device);
+    auto data = device.getData();
+
+    while (!inStream.atEnd()) {
+        QString line = inStream.readLine();
+        if (matchesPlaceholder(line, "Message handler declarations")) {
+            outStream << "// Message handlers\n";
+            for (auto *f : functions)
+                outStream << messageHandlerDeclaration(*f);
+            for (auto *d : data)
+                outStream << messageHandlerDeclaration(*d);
+        } else if (matchesPlaceholder(line, "Message handler implementations")) {
+            outStream << "// Message handlers\n";
+            for (auto *f : functions)
+                outStream << messageHandlerDefinition(*f) << "\n";
+            for (auto *d : data)
+                outStream << messageHandlerDefinition(*d) << "\n";
+        }
+        else {
+            outStream << line << Qt::endl;
+        }
     }
 
     inFile.close();

@@ -3,14 +3,13 @@
 
 /*** Enums ***/
 
-class Device
+namespace Device
 {
-public:
 
     // Basic device information
-    const char *getName() const { return "$name"; }
-    const char *getVendorId() const { return "$vendorId"; }
-    const char *getModel() const { return "$model"; }
+    const char *getName() { return "$name"; }
+    const char *getVendorId() { return "$vendorId"; }
+    const char *getModel() { return "$model"; }
 
     /*** Function declarations ***/
 
