@@ -18,6 +18,7 @@ QString messageHandlerDeclaration(const SingleFunction &fun);
 QString messageHandlerDeclaration(const Data &data);
 QString messageHandlerDefinition(const SingleFunction &fun);
 QString messageHandlerDefinition(const Data &data);
+QString mqttAutoSubscribeImpl(const QStringList &names);
 
 // BULK WRITERS
 void writeEnums(QTextStream &stream, QList<ValueSpec> enums);

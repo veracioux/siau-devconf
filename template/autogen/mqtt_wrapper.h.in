@@ -16,6 +16,8 @@
 
 #define TOPIC_PREFIX LOCATION "/" SERIAL_NO "/"
 
+using MqttMessageHandler = void (*)(MQTT::MessageData &);
+
 EthernetInterface *ethernetInterface();
 
 void ethernetConnect();
@@ -23,11 +25,13 @@ void ethernetConnect(const char *ip, const char *subnetMask,
         const char *defaultGateway);
 
 void mqttConnect(const char *brokerHost, int port = 1883);
-void mqttFirstResponder(MQTT::MessageData &msg);
+void mqttYield(int timeout_ms);
 
 void mqttAutoSubscribe();
+void mqttSubscribe(const char *topic, MqttMessageHandler handler,
+                MQTT::QoS qos = MQTT::QOS0);
 void mqttPublish(const char *topic, void *payload, size_t length);
-void mqttYield(int timeout_ms);
+
 void mqttCleanup();
 void ethernetCleanup();
 

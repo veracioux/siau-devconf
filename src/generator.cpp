@@ -40,7 +40,7 @@ QString enumDefinition(const ValueSpec &spec)
     QTextStream stream(&str);
     stream << QStringLiteral("typedef enum {\n");
     stream << indented(spec.getValueRange().join(", "));
-    stream << QStringLiteral("\n} %1;\n").arg(spec.getValueType());
+    stream << QStringLiteral("\n} %1;").arg(spec.getValueType());
     return str;
 }
 
@@ -52,7 +52,7 @@ QString functionDeclaration(const SingleFunction &fun)
 
 QString functionDefinition(const SingleFunction &fun)
 {
-    return cppFunction(Definition, "void", fun.getName(),
+    return cppFunction(Definition, "void", "Device::" + fun.getName(),
                        fun.getValueSpec().getValueType(), "value");
 }
 
@@ -65,7 +65,7 @@ QString dataDeclaration(const Data &data)
 QString dataDefinition(const Data &data)
 {
     return cppFunction(Definition, data.getValueSpec().getValueType(),
-                       data.getName(), "void", "");
+                       "Device::" + data.getName(), "void", "");
 }
 
 QString messageHandlerDeclaration(const SingleFunction &fun)
@@ -144,4 +144,15 @@ void writeDataDeclarations(QTextStream &stream, QList<const Data*> functions)
 {
     for (auto *d : functions)
         stream << dataDeclaration(*d);
+}
+
+QString mqttAutoSubscribeImpl(const QStringList &names)
+{
+    QString str;
+    QTextStream stream(&str);
+    for (const QString &name : names)
+        stream << indented(QStringLiteral("mqttSubscribe(TOPIC_PREFIX \"%1\", %2_handler);")
+                    .arg(name).arg(name)) << "\n";
+
+    return str;
 }

@@ -113,8 +113,13 @@ int main(int argc, char* argv[])
         output_dir = takeArg(args, ".");
     }
 
-    if (input_dir == "" && output_dir == "")
+    if (input_dir == "" && output_dir == "") {
         return 0;
+    }
+    else if (QFileInfo(input_dir).absoluteFilePath() == QFileInfo(output_dir).absoluteFilePath()) {
+        std::cerr << "devconf: error: Input and output directory cannot be the same\n";
+        return 1;
+    }
 
     // Output dir not specified => default to ./
     if (input_dir != "" && output_dir == "")
@@ -133,20 +138,22 @@ int main(int argc, char* argv[])
             throw std::runtime_error("Could not create autogen directory");
 
         UserData userData = UserData::fromJson(input_dir + "/user_device.json");
-        writeUserDeviceData(userData, templateDir() + "/autogen/user_device.h.in",
-                            output_dir + "/autogen/user_device.h");
+        substituteInFile(templateDir() + "/autogen/user_device.h.in",
+                         output_dir + "/autogen/user_device.h",
+                         userData.getAttributes());
         writeMessageHandlers(templateDir() + "/autogen/message_handler.h.in",
                              output_dir + "/autogen/message_handler.h", device);
         writeMessageHandlers(templateDir() + "/autogen/message_handler.cpp.in",
                              output_dir + "/autogen/message_handler.cpp", device);
+        writeMqttWrapperImpl(templateDir() + "/autogen/mqtt_wrapper.cpp.in",
+                               output_dir + "/autogen/mqtt_wrapper.cpp", device);
 
-        // TODO just copy the other files for now
+        // Just copy the other files
         copyFile(templateDir() + "/main.cpp.in", output_dir + "/main.cpp");
         copyFile(input_dir + "/factory_device.json",
              output_dir + "/factory_device.json");
         copyFile(input_dir + "/user_device.json", output_dir + "/user_device.json");
         copyFile(templateDir() + "/autogen/mqtt_wrapper.h.in", output_dir + "/autogen/mqtt_wrapper.h");
-        copyFile(templateDir() + "/autogen/mqtt_wrapper.cpp.in", output_dir + "/autogen/mqtt_wrapper.cpp");
     } catch (std::exception &e) {
         std::cerr << "devconf: error: " << e.what();
         return 1;

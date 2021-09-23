@@ -6,11 +6,11 @@
 #include <QFile>
 #include <iostream>
 
-extern QString processLine(QString, const QMap<QString, QString> &attr);
+extern QString substituteInLine(QString, const QMap<QString, QString> &attr);
 
 QString _processLine(QString line, const Device& device)
 {
-    return processLine(line, device.getAttributes());
+    return substituteInLine(line, device.getAttributes());
 }
 
 class TestWrite : public QObject

@@ -1,5 +1,5 @@
-#ifndef DEVICE_H
-#define DEVICE_H
+#ifndef IOT_DEVICE_H
+#define IOT_DEVICE_H
 
 /*** Enums ***/
 
@@ -7,9 +7,9 @@ namespace Device
 {
 
     // Basic device information
-    const char *getName() { return "$name"; }
-    const char *getVendorId() { return "$vendorId"; }
-    const char *getModel() { return "$model"; }
+    inline const char *getName() { return "$name"; }
+    inline const char *getVendorId() { return "$vendorId"; }
+    inline const char *getModel() { return "$model"; }
 
     /*** Function declarations ***/
 
@@ -17,4 +17,4 @@ namespace Device
 
 };
 
-#endif // DEVICE_H
+#endif // IOT_DEVICE_H

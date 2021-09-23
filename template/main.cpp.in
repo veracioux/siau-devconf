@@ -4,26 +4,11 @@
 #include "autogen/user_device.h"
 #include "autogen/mqtt_wrapper.h"
 
-/**
- * @brief Receive MQTT data from `topic` and relay it to the appropriate
- * function.
- */
-void mqttReceive(const char* topic, void* data, int len) {
-    // TODO This will get populated by devconf
-}
-
-/// @brief Send `data` of length `len` to the MQTT topic `topic`.
-void mqttSend(const char* topic, void* data, int len) {
-    // TODO later
-}
-
 int main(void)
 {
     ethernetConnect(IP_ADDR, SUBNET_MASK, DEFAULT_GW);
     mqttConnect(BROKER_HOST);
     mqttAutoSubscribe();
     while (true) mqttYield(100);
-    // Listen for events and call mqttReceive when appropriate
-    // Whatever else
     return 0;
 }

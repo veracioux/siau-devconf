@@ -31,6 +31,7 @@ compare_output_expected() {
     devconf --template _out/in_dir
     mkdir _out/out_dir
     cp "$PROJECT_DIR"/devices/SmartLight.json _out/in_dir/factory_device.json
+    cp user_device.json _out/in_dir/
 
     run devconf -i _out/in_dir -o _out/out_dir
 

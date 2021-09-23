@@ -6,20 +6,21 @@
 #include <iostream>
 #include "generator.h"
 
-/**
- * Copy the file `source` into the file `destination`, thereby creating the
- * necessary output directory structure if necessary.
- */
-bool copyFile(const QString& source, const QString& destination)
+// helpers
+void openOutputFile(QFile &out)
 {
-    QString destPath = QFileInfo(destination).absolutePath();
-    if (!QDir(destPath).exists() && !QDir().mkpath(destPath))
-        return false;
-
-    return QFile(source).copy(destination);
+    if (!out.open(QIODevice::WriteOnly))
+        throw std::runtime_error(QStringLiteral("Could not open output file '%1'")
+                                 .arg(out.fileName()).toStdString());
 }
-
-QString processLine(QString line, const QMap<QString, QString> &attributes)
+void openInOutFiles(QFile &in, QFile &out)
+{
+    if (!in.open(QIODevice::ReadOnly))
+        throw std::runtime_error(QStringLiteral("Could not open input file '%1'")
+                                 .arg(in.fileName()).toStdString());
+    openOutputFile(out);
+}
+QString substituteInLine(QString line, const QMap<QString, QString> &substitutions)
 {
     // This code will be explained by an example assuming line == "void $name()".
     // Also assume that device.getName() == "MyDevice".
@@ -37,8 +38,8 @@ QString processLine(QString line, const QMap<QString, QString> &attributes)
             // len = 4
             int len = validIds.matchedLength();
             QString replacement;
-            if (attributes.contains(match))
-                replacement = attributes[match];
+            if (substitutions.contains(match))
+                replacement = substitutions[match];
             else
                 std::cerr << QStringLiteral("devconf: warning: $%1 not found, expanding to empty string")
                              .arg(match).toStdString() << std::endl;
@@ -49,17 +50,11 @@ QString processLine(QString line, const QMap<QString, QString> &attributes)
     }
     return line;
 }
-
-// Helper functions
-
 bool matchesPlaceholder(const QString &str, const QString &placeholder)
 {
     QRegExp regex(QStringLiteral("\\s*/\\*\\*\\* %1 \\*\\*\\*/\\s*").arg(placeholder));
     return regex.exactMatch(str);
 }
-
-// C++ symbol sweepers
-
 /**
  * @brief Find all enum ValueSpecs in the `device` and return them.
  */
@@ -81,7 +76,6 @@ QList<ValueSpec> sweepDeviceEnums(const Device &device)
     }
     return enums.values();
 }
-
 QList<const SingleFunction*> sweepDeviceFunctions(const Device &device)
 {
     QList<const SingleFunction*> functions;
@@ -93,21 +87,41 @@ QList<const SingleFunction*> sweepDeviceFunctions(const Device &device)
     return functions;
 }
 
-// helper
-
-void openOutputFile(QFile &out)
+/**
+ * Copy the file `source` into the file `destination`, thereby creating the
+ * necessary output directory structure if necessary.
+ */
+bool copyFile(const QString& source, const QString& dest)
 {
-    if (!out.open(QIODevice::WriteOnly))
-        throw std::runtime_error(QStringLiteral("Could not open output file '%1'")
-                                 .arg(out.fileName()).toStdString());
+    QString destPath = QFileInfo(dest).absolutePath();
+    if (!QDir(destPath).exists() && !QDir().mkpath(destPath))
+        return false;
+
+    return QFile(source).copy(dest);
 }
 
-void openInOutFiles(QFile &in, QFile &out)
+/**
+ * @brief Copy `source` file to `dest` file with `substitutions` applied.
+ * @param substitutions The keys are names of the substitution variables and the
+ * values are the strings with which to substitute them. Substitution variables
+ * must start with a '$' in the `source` file.
+ */
+void substituteInFile(const QString &source, const QString &dest,
+                      const QMap<QString, QString> &substitutions)
 {
-    if (!in.open(QIODevice::ReadOnly))
-        throw std::runtime_error(QStringLiteral("Could not open input file '%1'")
-                                 .arg(in.fileName()).toStdString());
-    openOutputFile(out);
+    QFile inFile(source);
+    QFile outFile(dest);
+
+    openInOutFiles(inFile, outFile);
+    QTextStream inStream(&inFile), outStream(&outFile);
+
+    while (!inStream.atEnd()) {
+        QString line = inStream.readLine();
+        outStream << substituteInLine(line, substitutions) << Qt::endl;
+    }
+
+    inFile.close();
+    outFile.close();
 }
 
 /**
@@ -153,7 +167,7 @@ void writeDeviceHeader(const Device& device, const QString& in, const QString& o
             outStream << indented(str);
         }
         else
-            outStream << processLine(line, device.getAttributes()) << Qt::endl;
+            outStream << substituteInLine(line, device.getAttributes()) << Qt::endl;
     }
 
     inFile.close();
@@ -186,37 +200,6 @@ void writeDeviceImpl(const Device &device, const QString &out)
     return;
 }
 
-// TODO remove maybe
-void writeMqttImpl(const QString &in, const QString &out)
-{
-    QFile inFile(in);
-    QFile outFile(out);
-
-    openInOutFiles(inFile, outFile);
-
-    QString mqttTopic;
-
-    inFile.close();
-    outFile.close();
-}
-
-void writeUserDeviceData(const UserData &data, const QString &in, const QString &out)
-{
-    QFile inFile(in);
-    QFile outFile(out);
-
-    openInOutFiles(inFile, outFile);
-    QTextStream inStream(&inFile), outStream(&outFile);
-
-    while (!inStream.atEnd()) {
-        QString line = inStream.readLine();
-        outStream << processLine(line, data.getAttributes()) << Qt::endl;
-    }
-
-    inFile.close();
-    outFile.close();
-}
-
 void writeMessageHandlers(const QString &in, const QString &out, const Device &device)
 {
     QFile inFile(in);
@@ -245,6 +228,39 @@ void writeMessageHandlers(const QString &in, const QString &out, const Device &d
         }
         else {
             outStream << line << Qt::endl;
+        }
+    }
+
+    inFile.close();
+    outFile.close();
+}
+
+void writeMqttWrapperImpl(const QString &in, const QString &out, const Device &device)
+{
+    QFile inFile(in);
+    QFile outFile(out);
+    openInOutFiles(inFile, outFile);
+    QTextStream inStream(&inFile), outStream(&outFile);
+
+    auto functions = sweepDeviceFunctions(device);
+    auto data = device.getData();
+
+    QStringList cppFunctions;
+    cppFunctions.reserve(functions.size() + data.size());
+    for (const auto *f : functions)
+        cppFunctions.append(f->getName());
+    for (const auto *d : data)
+        cppFunctions.append(d->getName());
+
+    while (!inStream.atEnd()) {
+        QString line = inStream.readLine();
+        if (matchesPlaceholder(line, "mqttAutoSubscribe"))
+            outStream << mqttAutoSubscribeImpl(cppFunctions);
+        else {
+            // Substitute max number of subscribe handlers
+            QString num = QString::number(cppFunctions.size() + 5);
+            outStream << substituteInLine(line, {{"maxSubscriptions", num}})
+                      << Qt::endl;
         }
     }
 
