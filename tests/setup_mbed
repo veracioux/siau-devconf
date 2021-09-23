@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+mkdir -p _mbed
+cd _mbed
+mbed new . 2>/dev/null
+cp ../_out/out_dir/* ./ -r

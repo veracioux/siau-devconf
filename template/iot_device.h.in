@@ -15,6 +15,7 @@ namespace Device
 
     /*** Data declarations ***/
 
+    void initialize();
 };
 
 #endif // IOT_DEVICE_H

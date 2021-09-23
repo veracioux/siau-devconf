@@ -7,5 +7,6 @@
 #define SUBNET_MASK "$subnetMask"
 #define DEFAULT_GW  "$defaultGateway"
 #define BROKER_HOST "$brokerHost"
+#define MODEL       "$model"
 
 #endif // USER_DEVICE_H

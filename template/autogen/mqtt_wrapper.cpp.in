@@ -4,7 +4,20 @@
 using MQTTClient = MQTT::Client<MQTTNetwork, Countdown, 100, $maxSubscriptions>;
 
 static EthernetInterface ethernet;
+static MQTTNetwork mqttNet(&ethernet);
 static MQTTClient *mqttClient = nullptr;
+static bool connectionApproved = false;
+
+void _requestConnection()
+{
+    char payload[] = SERIAL_NO "\0" MODEL;
+    mqttPublish(LOCATION "/_/requestConnection", payload, sizeof(payload));
+}
+
+void _connectionApprovalHandler(MQTT::MessageData &msg)
+{
+    connectionApproved = true;
+}
 
 EthernetInterface *ethernetInterface()
 {
@@ -13,7 +26,11 @@ EthernetInterface *ethernetInterface()
 
 void ethernetConnect()
 {
-    ethernet.connect();
+    int status = ethernet.connect();
+    if (status == 0)
+        printf("Connected to ethernet interface\n");
+    else
+        printf("Failed to connect to ethernet interface\n");
 }
 
 void ethernetConnect(const char *ip, const char *subnetMask,
@@ -38,7 +55,6 @@ void ethernetConnect(const char *ip, const char *subnetMask,
 
 void mqttConnect(const char *brokerHost, int port)
 {
-    static MQTTNetwork mqttNet(&ethernet);
     MQTTPacket_connectData connData = MQTTPacket_connectData_initializer;
 
     int status = mqttNet.connect(brokerHost, port);
@@ -53,11 +69,16 @@ void mqttConnect(const char *brokerHost, int port)
         printf("MQTT client connected\n");
     else
         printf("Failed to connect MQTT client\n");
+
+    mqttSubscribe(TOPIC_PREFIX "/approveConnection", _connectionApprovalHandler);
+    _requestConnection();
 }
 
 void mqttYield(int timeout_ms)
 {
     mqttClient->yield(timeout_ms);
+    if (!connectionApproved)
+        _requestConnection();
 }
 
 void mqttAutoSubscribe()
@@ -77,10 +98,11 @@ void mqttPublish(const char *topic, void *payload, size_t length)
 
 void mqttCleanup()
 {
-    // TODO implement
+    mqttClient->disconnect();
+    mqttNet.disconnect();
 }
 
 void ethernetCleanup()
 {
-    // TODO implement
+    ethernet.disconnect();
 }

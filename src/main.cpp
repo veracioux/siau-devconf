@@ -138,9 +138,11 @@ int main(int argc, char* argv[])
             throw std::runtime_error("Could not create autogen directory");
 
         UserData userData = UserData::fromJson(input_dir + "/user_device.json");
+        auto substitutions = userData.getAttributes();
+        substitutions["model"] = device.getModel();
         substituteInFile(templateDir() + "/autogen/user_device.h.in",
                          output_dir + "/autogen/user_device.h",
-                         userData.getAttributes());
+                         substitutions);
         writeMessageHandlers(templateDir() + "/autogen/message_handler.h.in",
                              output_dir + "/autogen/message_handler.h", device);
         writeMessageHandlers(templateDir() + "/autogen/message_handler.cpp.in",
@@ -149,7 +151,7 @@ int main(int argc, char* argv[])
                                output_dir + "/autogen/mqtt_wrapper.cpp", device);
 
         // Just copy the other files
-        copyFile(templateDir() + "/main.cpp.in", output_dir + "/main.cpp");
+        copyFile(templateDir() + "/main.cpp", output_dir + "/main.cpp");
         copyFile(input_dir + "/factory_device.json",
              output_dir + "/factory_device.json");
         copyFile(input_dir + "/user_device.json", output_dir + "/user_device.json");

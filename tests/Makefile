@@ -29,7 +29,7 @@ build:
 	cmake --build _build
 
 clean:
-	rm -rf _build _out
+	rm -rf _build _out _mbed
 
 # Helper targets
 prepare:

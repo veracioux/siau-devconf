@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd _mbed
+mbed compile --flash --sterm -t GCC_ARM -m NUCLEO_F746ZG

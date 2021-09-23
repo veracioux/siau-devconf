@@ -184,7 +184,8 @@ void writeDeviceImpl(const Device &device, const QString &out)
     auto data = device.getData();
 
     QTextStream outStream(&outFile);
-    outStream << "#include \"iot_device.h\"\n\n";
+    outStream << "#include \"iot_device.h\"\n"
+              << "#include <mbed.h>\n\n";
 
     outStream << "// Device functions\n\n";
     for (auto *f : functions)
@@ -195,6 +196,11 @@ void writeDeviceImpl(const Device &device, const QString &out)
     for (auto *d : data)
         outStream << dataDefinition(*d)
                   << "\n";
+
+    outStream << "void Device::initialize()\n"
+                 "{\n"
+                 "    // TODO\n"
+                 "}\n";
 
     outFile.close();
     return;
