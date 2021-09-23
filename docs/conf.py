@@ -60,6 +60,8 @@ if os.environ.get('READTHEDOCS', False):
     subprocess.call('umask 000', shell=True)
 
     subprocess.call('make doxygen', shell=True)
+    subprocess.call('cmod -R 777 ./_intermediate/devlib/_build/doxygen',
+                    shell=True)
     subprocess.call('make prepare-man', shell=True)
     subprocess.call('make mv-files', shell=True)
     subprocess.call('make devlib', shell=True)

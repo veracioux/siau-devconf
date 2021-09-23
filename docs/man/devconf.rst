@@ -63,7 +63,8 @@ OPTIONS
 
 `-m`, `--mbed`
 
-   Initialize an mbed workspace with all dependencies in the output directory.
+   Inicijalizira mbed workspace sa svim potrebnim bibliotekama u izlaznom
+   direktoriju.
 
 `-h`, `--help`
 

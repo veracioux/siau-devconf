@@ -20,9 +20,9 @@ man:
 
 install: man
 	mkdir -p _build/
-	$(CMAKE) -DTEMPLATE_DIR="$(DESTDIR)/$(PREFIX)/share/devconf" \
+	$(CMAKE) -DTEMPLATE_DIR="/$(PREFIX)/share/devconf" \
 		&& $(CMAKE_BUILD)
-	mkdir -p "$(DESTDIR)/$(PREFIX)"/{bin,share/devconf,share/man/man1}
+	mkdir -p "$(DESTDIR)/$(PREFIX)"/{bin,share/devconf,share/man/man1,lib}
 	cp ./_build/devconf "$(DESTDIR)/$(PREFIX)"/bin/
 	cp ./_build/devconf.1.gz "$(DESTDIR)/$(PREFIX)"/share/man/man1/
 	cp -r ./template/* "$(DESTDIR)/$(PREFIX)"/share/devconf/

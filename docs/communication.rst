@@ -19,10 +19,6 @@ Pri tome `lokacija` uređaja može predstavljati na primjer naziv sobe, a polje
 naziv naziv :ref:`funkcije<functions>` koju uređaj treba izvršiti, ili
 :ref:`podatka<data>` koji se čita sa uređaja.
 
-.. todo:: Odrediti šta će se koristiti kao jedinstvena identifikacija uređaja. U
-   primjerima je korišten serijski broj, ali nismo se konačno odlučili da će
-   ostati tako.
-
 .. _requestConnection:
 
 Zahtjev za konekciju
