@@ -1,93 +1,73 @@
-# Konfigurator uređaja
+# Smart home device configurator
 
-Ovaj podmodul ima zadatak da omogući programeru da isprogramira novi pametni
-uređaj. Na osnovu odabranih konfiguracijskih parametara se generiše polazni
-programski kod koji programer treba dodatno implementirati, nakon čega se može
-uploadovati na mikrokontroler uređaja korištenjem [MBED](https://mbed.org)
-platforme.  Konfiguracijski parametri se zadaju u JSON formatu.
+Here's how to use it:
 
-# NAPOMENA: JOŠ UVIJEK NIJE TESTIRANO NA WINDOWS-u
+- Fill out a few JSON files with a basic device description
+- Generate template C++ code in an mbed workspace
+- Implement some C++ functions
+- Compile and download to the microcontroller
 
-# Opis principa
+**Features:**
 
-Pošto se razvoj pametne kuće vrši u više iteracija te se paralelno vrši
-razvoj različitih komponenti koje trebaju da budu sinhronizovane, potrebno je
-uniformizirati pristupe. Na primjer tim koji kreira logiku i GUI treba da ima
-uniforman interfejs sa svim uređajima, tako da samo tim koji vrši
-konfiguraciju uređaja mora brinuti o finim detaljima uređaja. Iz tog razloga
-će svi uređaji biti predstavljeni preko JSON datoteka. Ostali timovi mogu ove
-datoteke pročitati kako bi mogli napraviti interfejs sa ovim uređajima.
-Također, ove datoteke će se iskoristiti za generisanje osnovnih C++ source
-predložaka, koje programer uređaja treba da implementira.
+- JSON files can be used by both the smart device and the smart home system
+  - this is provided by the library `devlib`
+- Uses the MQTT protocol
+  - you only have to implement the device features
+- Uses Mbed OS 6
+- Tested on Nucleo F746ZG
 
-# Dokumentacija
+All of this is provided by the `devconf` program. Below you can find
+instructions on how to build it.
 
-Kompletna dokumentacija se može pronaći [ovdje](https://siau-devconf.rtfd.io).
+**Note:** tested on Linux only.
 
-# Setup
+## Documentation
 
-Da bi se izgradio program `devconf`, potrebno je instalirati sljedeće programe.
+The complete documentation can be found [here](https://siau-devconf.rtfd.io).
 
-## Potrebni programi i biblioteke
+## Dependencies
 
 - CMake >= 3.10
 - Qt >= 5.9
   - qt5-mqtt
 - make
-- python3, docutils (samo za generisanje manpage-a)
+- python3, docutils (to build the manual)
 
-Trebalo bi da se svi ovi alati mogu instalirati korištenjem vašeg omiljenog
-package manager-a.
+**Optional:**
+
+- [mbed-cli](https://pypi.org/project/mbed-cli/) if you want to generate an mbed workspace automatically
 
 ## Build
 
-Potrebno je pokrenuti komandu:
+Run the following commands:
 
+    git clone --recurse-submodules 'https://github.com/veracioux/siau-devconf'
     make
 
-Ovo će kreirati program `devconf` i manpage, koji će biti smješteni u folderu
-`_build/`. Alternativno, moguće je pozvati:
+This will create the program `devconf` and the man page in `_build/`
+Alternatively, you can call:
 
     make app
 
-odnosno
+and
 
     make man
 
-da bi se ove komponente izgradile pojedinačno.
+to build them separately.
 
-**NAPOMENA:** Ovako generisan program `devconf` se smije pozivati samo iz root
-foldera projekta, u suprotnom neće raditi korektno.
+**NOTE:** `devconf` built this way must be called only from the project root
+directory, otherwise it won't work correctly.
 
-Ako je potrebno program kompajlirati direktno iz `CMakeLists.txt`, ova datoteka
-se nalazi u folderu `src/.`
+You can also compile the program directly from `src/CMakeLists.txt`.
 
-## Instalacija
+## Installation
 
-Program `devconf` se može instalirati korištenjem komande:
+To install `devconf` on your system run:
 
     make install PREFIX=<DIR>
 
-**NAPOMENA:** `<DIR>` **mora biti apsolutna putanja. Ovo je od krucijalnog značaja!**
+**NOTE:** `<DIR>` **must be an absolute path. This is essential!**
 
-Ako se komanda pozove samo kao `make install`, tj. ako se ne zada varijabla
-`PREFIX`, program će biti instaliran u folderu `/usr/local`. U tom slučaju
-je potreban `sudo` pristup.
-
-# Komanda `devconf`
-
-Ova komanda će se koristiti za generisanje *source datoteka* na osnovu *JSON
-datoteka* i predložaka *C++ datoteka*. Dokumentacija (source) ove komande se
-nalazi u datoteci `docs/man/devconf.rst`. Ova dokumentacija se može build-at
-putem:
-
-    make man
-
-pri čemu će se generisati **Linux Manpage** `_build/devconf.1.gz`. Ovaj manpage se
-može otvoriti korištenjem komande (na Linux-u):
-
-    man -l _build/devconf.1.gz
-
-Međutim, source ovog manpage-a je već itekako čitljiv, pogotovo na
-GitHub/GitLab-u.
-
+If you just run `make install` without giving the `PREFIX` variable, the program
+shall be installed under `/usr/local`. In that case you will need root
+permissions.

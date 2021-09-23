@@ -67,6 +67,12 @@ pomoću sljedeće komande:
 
     devconf --input-dir . --output-dir mbed-workspace/
 
+.. admonition:: Uputa
+   :class: tip
+
+   Moguće je koristiti dodatnu opciju `-m/--mbed`. Ova opcija će inicijalizirati
+   mbed workspace sa potrebnim bibliotekama u izlaznom direktoriju.
+
 .. admonition:: Napomena
 
    Umjesto ulaznog direktorija `./` i izlaznog direktorija
@@ -95,7 +101,9 @@ programera.
 
 Naime, potrebno je implementirati funkcije u datoteci
 `iot_device.cpp`. Zavisno od konkretne primjene, možda će biti potrebno
-izmijeniti i datoteke `main.cpp`, te `iot_device.h`.
+izmijeniti i datoteke `main.cpp`, te `iot_device.h`. Ako nije korištena
+`-m/--mbed` opcija, onda je potrebno ručno dodati biblioteke `mbed-os` i
+`mbed-mqtt` u mbed workspace.
 
 .. admonition:: Napomena
 

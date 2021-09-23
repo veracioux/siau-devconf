@@ -26,7 +26,7 @@ funkcionalnost.
 
 Generišu se sljedeće datoteke:
 
-   1. :ref:`main.cpp.in <main_cpp>`
+   1. :ref:`main.cpp <main_cpp>`
    2. :ref:`iot_device.h.in <iot_device_h_in>` :menuselection:`-->` `iot_device.h`
    3. Datoteka `iot_device.cpp` sa praznim implementacijama funkcija
    4. Razne pomoćne datoteke unutar direktorija `autogen`
@@ -299,7 +299,7 @@ sljedeća linija iz datoteke `iot_device.h.in`
 Datoteka `main.cpp`
 +++++++++++++++++++
 
-.. literalinclude:: _build/files/main.cpp.in
+.. literalinclude:: _build/files/main.cpp
    :language: c++
 
 Ova datoteka sadrži osnovnu logiku programa. Programer može po potrebi proširiti

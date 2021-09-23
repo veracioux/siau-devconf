@@ -7,8 +7,6 @@ devconf
 SYNOPSIS
 ========
 
-TODO: Trenutno je implementirana samo `--template` opcija.
-
 ::
 
    devconf [--help|-h]
@@ -36,9 +34,12 @@ Zatim se pomoću komande
 
 ::
 
-   devconf --input-dir <DIR> --output-dir <DIR>
+   devconf --input-dir <DIR> --output-dir <DIR> --mbed
 
 generiše MBED workspace za programiranje uređaja.
+
+Ako nije korištena opcija `--mbed`, potrebno je obezbijediti biblioteke
+`mbed-os` i `mbed-mqtt` u izlaznom direktoriju.
 
 OPTIONS
 =======
@@ -53,12 +54,16 @@ OPTIONS
 `-i \<DIR\>`, `--input-dir=\<DIR\>`
 
    `\<DIR\>` je direktorij koji sadrži ulazne datoteke *factory_device.json*,
-   *user_device.json*, *main.cpp.in*. 
+   *user_device.json*
 
 `-o \<DIR\>`, `--output-dir=\<DIR\>`
 
    `\<DIR\>` je direktorij u koji će se smjestiti izlazne datoteke, a također
    predstavlja **workspace za programiranje MBED uređaja.**
+
+`-m`, `--mbed`
+
+   Initialize an mbed workspace with all dependencies in the output directory.
 
 `-h`, `--help`
 
@@ -68,8 +73,3 @@ AUTHOR
 ======
 
 SIAU: Tim 1
-
-COPYRIGHT
-=========
-
-SIAU ETF
