@@ -9,15 +9,15 @@ Format MQTT teme
 ----------------
 
 Svaka tema treba da bude sljedećeg formata::
-   
-   lokacija/uređaj/poruka
+
+   lokacija/serialNo/poruka
 
 Jedini izuzetak je :ref:`zahtjev za konekciju <requestConnection>`.
 
 Pri tome `lokacija` uređaja može predstavljati na primjer naziv sobe, a polje
-`uređaj` je jedinstvena identifikacija uređaja. Polje `poruka` predstavlja naziv
-poruke i **identično** je nazivu :ref:`funkcije<functions>` koju uređaj treba
-izvršiti, ili :ref:`podatka<data>` koji se čita sa uređaja.
+`serialNo` je jedinstveni serijski broj uređaja. Polje `poruka` predstavlja
+naziv naziv :ref:`funkcije<functions>` koju uređaj treba izvršiti, ili
+:ref:`podatka<data>` koji se čita sa uređaja.
 
 .. todo:: Odrediti šta će se koristiti kao jedinstvena identifikacija uređaja. U
    primjerima je korišten serijski broj, ali nismo se konačno odlučili da će
@@ -38,17 +38,17 @@ Zahtjev za konekciju se šalje preko sljedeće MQTT teme::
 
 Payload poruke je sljedeći:
 
-.. centered:: [ :kbd:`model, serialNo` ]
+.. centered:: [ `serialNo`, `model` ]
 
-Pri tome je `model` jedinstvena identifikacija modela uređaja, a `serialNo`
-je jedinstvena identifikacija konkretnog uređaja (broj lične karte uređaja).
+Pri tome je `serialNo` jedinstvena identifikacija konkretnog uređaja i zadaje se
+kroz datoteku :ref:`user_device.json <user_device_json>`, dok se `model` zadaje
+kroz datoteku :ref:`factory_device.json <factory_device_json>`.  String
+`serialNo` mora biti nul-terminiran, dok za `model` to nije neophodno.
 
 Ako je konekcija uspješna, smart-home sistem treba da pošalje povratnu poruku
 uređaju::
 
    lokacija/serialNo/approveConnection
-
-bez payload-a.
 
 ----
 
@@ -79,7 +79,7 @@ Da bi se na uređaju aktivirala neka funkcija sa nazivom ``fun`` (koja je
 definirana u datoteci :ref:`factory_device.json<factory_device_json>`) potrebno
 je poslati poruku na sljedećoj temi::
 
-   lokacija/uređaj/fun
+   lokacija/serialNo/fun
 
 ----
 
@@ -113,13 +113,13 @@ Da bi se sa uređaja dobio neki podatak sa nazivom ``dat`` (koji je definiran u
 datoteci :ref:`factory_device.json<factory_device_json>`) potrebno je poslati
 zahtjev za taj podatak na sljedećoj temi::
 
-   lokacija/uređaj/dat
+   lokacija/serialNo/dat
 
 bez payload-a.
 
 Uređaj će polati povratnu informaciju na temi::
 
-   lokacija/uređaj/dat_response
+   lokacija/serialNo/dat/response
 
 sa payload-om koji sadrži traženi podatak.
 
@@ -143,7 +143,7 @@ onda smart-home sistem treba poslati poruku na temi::
 
 Uređaj će poslati odgovor na temi::
 
-   dnevni_boravak/001-2340/getEnergyConsumption_response
+   dnevni_boravak/001-2340/getEnergyConsumption/response
 
 a payload će sadržavati ``float`` koji sadrži traženu vrijednost.
 

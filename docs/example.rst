@@ -22,16 +22,8 @@ Korisnička konfiguracija
 Sadržaj datoteke `user_device.json`
    ..
 
-.. code-block:: json
-
-   {
-       "name": "Pametna sijalica 1",
-       "serialNo": "LG-0001",
-       "location": "hodnik",
-       "ip": "192.168.1.100",
-       "subnetMask": "255.255.255.0",
-       "defaultGateway": "192.168.1.1"
-   }
+.. literalinclude:: ../tests/user_device.json
+   :language: json
 
 Identifikacijski parametri su proizvoljno odabrani.
 
@@ -120,11 +112,11 @@ Popis korištenih MQTT poruka
 +-----------------------+-----------+-----------------------------------------+---------------------+
 | ``getBrightness``     | Sistem    | `hodnik/LG-0001/getBrightness`          |                     |
 +-----------------------+-----------+-----------------------------------------+---------------------+
-|                       | Uređaj    | `hodnik/LG-0001/getBrightness_response` | *[0.0,100.0]*       |
+|                       | Uređaj    | `hodnik/LG-0001/getBrightness/response` | *[0.0,100.0]*       |
 +-----------------------+-----------+-----------------------------------------+---------------------+
 | ``getState``          | Sistem    | `hodnik/LG-0001/getState`               |                     |
 +-----------------------+-----------+-----------------------------------------+---------------------+
-|                       | Uređaj    | `hodnik/LG-0001/getState_response`      | *On* ili *Off*      |
+|                       | Uređaj    | `hodnik/LG-0001/getState/response`      | *On* ili *Off*      |
 +-----------------------+-----------+-----------------------------------------+---------------------+
 | ``turnOn``            | Sistem    | `hodnik/LG-0001/turnOn`                 |                     |
 +-----------------------+-----------+-----------------------------------------+---------------------+
@@ -136,39 +128,35 @@ Popis korištenih MQTT poruka
 Generisane C++ datoteke
 +++++++++++++++++++++++
 
-Datoteka `iot_device.h`
-***********************
-
-.. code-block::
-
-   #ifndef DEVICE_H
-   #define DEVICE_H
-
-   class Device
-   {
-   public:
-
-       enum StateOnOff {
-           On, Off
-       };
-
-       // BASIC GETTERS
-       const char *getVendorId() const { return "ETF"; }
-       const char *getModel() const { return "LX34-U6M"; }
-       const char *getSerialNo() const { return "LG-0001"; }
-
-       void turnOn();
-       void turnOff();
-       void setBrightness(float value);
-
-       float getBrightness() const;
-       StateOnOff getState() const;
-
-   };
-
-   #endif // DEVICE_H
-
 Datoteka `main.cpp`
 *******************
 
-.. todo:: Dodati `main.cpp` datoteku.
+Ova datoteka je potpuno automatski generisana, i u većini slučajeve neće biti
+potrebno praviti ikakve izmjene.
+
+.. literalinclude:: ../template/main.cpp
+   :language: C++
+
+Datoteka `iot_device.h`
+***********************
+
+.. literalinclude:: example/iot_device.h
+   :language: C++
+
+Datoteka `iot_device.cpp`
+*************************
+
+Ova datoteka je automatski generisana na osnovu JSON datoteka i ima sljedeći
+izgled:
+
+.. literalinclude:: example/iot_device.cpp
+   :language: C++
+
+Implementirana datoteka bi mogla izgledati na primjer ovako:
+
+.. literalinclude:: example/iot_device_impl.cpp
+   :language: C++
+
+Programski kod se sada može kompajlirati i poslati na uređaj, bez ikakve dodatne
+konfiguracije.
+

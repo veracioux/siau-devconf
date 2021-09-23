@@ -30,10 +30,11 @@ Da bi se izgradio program `devconf`, potrebno je instalirati sljedeće programe.
 
 ## Potrebni programi i biblioteke
 
--   [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
--   CMake >= 3.10
--   make
--   python3, docutils (samo za generisanje manpage-a)
+- CMake >= 3.10
+- Qt >= 5.9
+  - qt5-mqtt
+- make
+- python3, docutils (samo za generisanje manpage-a)
 
 Trebalo bi da se svi ovi alati mogu instalirati korištenjem vašeg omiljenog
 package manager-a.

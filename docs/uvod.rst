@@ -93,8 +93,12 @@ Nakon ovog koraka, sve što je preostalo je implementirati funkcionalnost u ovim
 datotekama. Konfigurator uređaja je učinio svoj dio, ostalo je zadatak
 programera.
 
+Naime, potrebno je implementirati funkcije u datoteci
+`iot_device.cpp`. Zavisno od konkretne primjene, možda će biti potrebno
+izmijeniti i datoteke `main.cpp`, te `iot_device.h`.
+
 .. admonition:: Napomena
+
    Direktorij `autogen/` sadrži pomoćne fajlove i nije predviđeno da se
    direktno modifikuje, osim u izuzetnim situacijama.
 
-.. todo:: eventualno generisati i ostale mbed datoteke korištenjem mbed-cli?

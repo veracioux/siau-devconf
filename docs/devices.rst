@@ -11,12 +11,12 @@ Uređaji imaju dva seta parametara:
 
 *Tvornički parametri* određuju hardverske parametre koji se ne mogu mijenjati i
 koje uređaji posjeduju kada izađu iz fabrike. *Korisnički parametri* su oni koji
-se mijenjaju prilikom ugradnje uređaja u pametnu kuću i oni predstavljaju *ličnu
-kartu* svakog pojedinačnog uređaja.
+su poznati tek prilikom ugradnje uređaja u pametnu kuću i oni predstavljaju
+*ličnu kartu* svakog pojedinačnog uređaja.
 
-Tvornički parametri se nalaze u centralnoj bazi podataka. Ova baza podataka
-sadrži opise svih uređaja koji su prepoznati. S druge strane, korisnički
-parametri se pohranjuju samo u lokalnoj bazi podataka na nivou kuće.
+Tvornički parametri bi se u pravilu trebali nalaziti u centralnoj bazi podataka.
+Ova baza podataka sadrži opise svih uređaja koji su prepoznati. S druge strane,
+korisnički parametri se pohranjuju samo u lokalnoj bazi podataka na nivou kuće.
 
 Pošto mikrokontroleri obično posjeduju vrlo ograničene resurse, nezgodno je
 vršiti procesiranje JSON datoteka na samom mikrokontroleru. Pogodnije je
@@ -26,9 +26,10 @@ funkcionalnost.
 
 Generišu se sljedeće datoteke:
 
-   1. :ref:`main.cpp.in <main_cpp_in>` :menuselection:`-->` `main.cpp`
+   1. :ref:`main.cpp.in <main_cpp>`
    2. :ref:`iot_device.h.in <iot_device_h_in>` :menuselection:`-->` `iot_device.h`
-   3. Prazna datoteka `iot_device.cpp`
+   3. Datoteka `iot_device.cpp` sa praznim implementacijama funkcija
+   4. Razne pomoćne datoteke unutar direktorija `autogen`
 
 JSON datoteke
 -------------
@@ -71,7 +72,7 @@ Niz ``data``
 
 Atribut ``name``
 ****************
-   Format: Ispravan naziv C++ funkcije koji ne završava sa ``_response``.
+   Format: Ispravan naziv C++ funkcije.
       ..
 
    Jedinstveni identifikator koji ujedno predstavlja i ime metode u C++ klase
@@ -95,20 +96,13 @@ Atribut ``valueType``
    odgovarajućeg topic-a. Može biti ``float``, ``int``, ``bool``, ili naziv
    korisnički-definiranog enumeriranog tipa. Konkretne vrijednosti ovog enum-a
    se zadaju putem atributa ``valueRange`` koji je opisan u nastavku. U headeru
-   `iot_device.h` će se generisati definicija ovog enum tipa, zajedno sa
-   funkcijama koje vrše konverziju ovog tipa u string i obratno.
+   `iot_device.h` će se generisati definicija ovog enum tipa.
 
    Ako se ne navede atribut ``valueType``, onda će se uzeti da je on ``void``, što
    znači da ova funkcija ne zahtijeva nikakav ulazni podatak.
 
 Atribut ``valueRange``
 **********************
-   .. admonition:: Napomena
-
-      Ako atribut ``valueType`` nije korisnički definirani enum tip, onda se
-      ovaj atribut **ignoriše**. *Opcionalno*, GUI implementacija može
-      iskoristiti ovaj atribut da bi se odredio poželjan broj decimala za prikaz
-      vrijednosti ovog podatka.
 
    Određuje skup vrijednosti koje može uzeti enum čiji je naziv sadržan u
    atributu ``valueType``.
@@ -136,10 +130,10 @@ Niz ``functions``
    da implementira za konkretni uređaj. Generisana metoda je po svom karakteru
    *setter*.
 
-   Alternativno, funkcija može biti specificirana kao niz podfunkcija. Ovo je
-   korisno ako dvije funkcije konceptualno pripadaju istoj skupini (na primjer
-   funkcije ``upali`` i ``ugasi`` za neku pametnu lampu utiču na ON/OFF stanje
-   lampe).
+   Alternativno, funkcija može biti specificirana kao niz podfunkcija (*multi
+   function*). Ovo je korisno ako dvije funkcije konceptualno pripadaju istoj
+   skupini (na primjer funkcije ``upali`` i ``ugasi`` za neku pametnu lampu
+   utiču na ON/OFF stanje lampe).
 
 Atribut ``valueType``
 *********************
@@ -265,9 +259,9 @@ Ova datoteka je predložak za datoteku `iot_device.h` koja se treba generisati u
 **MBED workspace**\-u. Gdje god se u datoteci nađu alfanumerički znakovi ispred
 kojih se nalazi znak ``$`` treba se ubaciti vrijednost odgovarajućeg atributa
 uređaja. Također, svaka linija omeđena znakovima ``/*** ***/`` će biti
-zamijenjena implementacijama odgovarajućih metoda.  Sve što je potrebno za
-generisanje ove datoteke se nalazi u odgovarajućoj datoteci
-:ref:`factory_device.json<factory_device_json>`. Datoteka
+zamijenjena automatski generisanim deklaracijama/definicijama odgovarajućih
+funkcija. Sve što je potrebno za generisanje ove datoteke se nalazi u
+odgovarajućoj datoteci :ref:`factory_device.json<factory_device_json>`. Datoteka
 :ref:`user_device.json<factory_device_json>` se ovdje ne koristi.
 
 ----
@@ -300,18 +294,15 @@ sljedeća linija iz datoteke `iot_device.h.in`
 
 ----
 
-.. _main_cpp_in:
+.. _main_cpp:
 
-Datoteka `main.cpp.in`
-++++++++++++++++++++++++
+Datoteka `main.cpp`
++++++++++++++++++++
 
 .. literalinclude:: _build/files/main.cpp.in
    :language: c++
 
-Za generisanje ove datoteke se koristi datoteka :ref:`user_device.json
-<user_device_json>`. Vrijedi sličan princip kao za datoteku :ref:`iot_device.h
-<iot_device_h_in>`.
-
-.. todo:: Ovaj dio je nepotpun. Potrebno je odrediti šta će se generisati u ovoj
-   datoteci, da li će se uopšte vršiti konfigurisanje ove datoteke i sl.
-   Najprije je potrebno napraviti osnovnu implementaciju uređaja...
+Ova datoteka sadrži osnovnu logiku programa. Programer može po potrebi proširiti
+funkcionalnost ove datoteke. Preprocesorske konstante ``IP_ADDR``,
+``SUBNET_MASK`` itd. se mogu pronaći u datoteci `autogen/user_device.h` i
+generisani su na osnovu datoteke :ref:`user_device.json<user_device_json>`.
