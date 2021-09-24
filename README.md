@@ -1,5 +1,12 @@
 # Smart home device configurator
 
+<p align="center">
+  <a href="https://asciinema.org/a/437748" target="_blank">
+    <img src="https://gist.github.com/veracioux/732e6f374ea0fbed2f4694a4c2a75f43/raw/17bfb84ca18acfc8c335c90c23fa4978c0a75696/devconf-demo.svg" />
+  </a>
+</p>
+
+
 Here's how to use it:
 
 - Fill out a few JSON files with a basic device description
